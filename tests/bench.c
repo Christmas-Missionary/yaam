@@ -7,8 +7,10 @@ static inline double clockdif_to_milli(const clock_t time) {
   return ((double)time / CLOCKS_PER_SEC) * 1000;
 }
 
+#include <stdnoreturn.h>
+
 #define VAL_TO_TEST 5
-#define LOOP_AMOUNT 1000000000
+#define LOOP_AMOUNT 2000000000
 
 
 int main(void) {
@@ -22,7 +24,7 @@ int main(void) {
 
   time = clock();
   for (int i = 0; i < LOOP_AMOUNT; i++) {
-    ERROR(test == VAL_TO_TEST, ERROR_TYPE_ASSERTION, "", ERROR_SRC);
+    ERROR(test == VAL_TO_TEST, ERROR_TYPE_ASSERTION, "");
   }
   time = clock() - time;
   printf("Errors assert: %f milliseconds\n", clockdif_to_milli(time));
