@@ -5,7 +5,13 @@
 
 #define ERROR(exp, type, msg)
 
-#else /* #if !NDEBUG */
+#else // #if !NDEBUG
+
+#if defined(__cplusplus) && __cplusplus < 201103L
+#error "C++ version is too early! It must be at least C++11!"
+#elif !defined(__cplusplus) && (!defined(__STDC_VERSION__) || __STDC_VERSION__ == 199409L)
+#error "You must be using C89, which is not allowed! Please be at least C99!"
+#endif
 
 #define ERROR_TYPE_WARNING 0
 #define ERROR_TYPE_ASSERTION 1
@@ -37,17 +43,21 @@ void warn_handler(const char * msg, const char * file, const char * fnc, int lin
 }
 #endif
 
-/* clang-format off */
+// clang-format off
 #define ERROR(exp, type, msg) \
   ((exp)    ? (void)0 \
    : (type) ? err_handler(type, msg, __FILE_NAME__, __func__, __LINE__, #exp) \
             : warn_handler(msg, __FILE_NAME__, __func__, __LINE__, #exp))
-/* clang-format on */
+// clang-format on
 
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET
 #undef ERR_NO_RET
 #endif
 
-#endif /* !DNDEBUG */
+#endif // !DNDEBUG
 
-#endif /* CUSTOM_ERRORS */
+#if !defined(__cplusplus) && defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && __STDC_VERSION__ < 202311L
+#define static_assert _Static_assert
+#endif
+
+#endif // CUSTOM_ERRORS
