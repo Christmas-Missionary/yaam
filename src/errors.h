@@ -1,9 +1,9 @@
-#ifndef CUSTOM_ERRORS
-#define CUSTOM_ERRORS
+#ifndef CE_CUSTOM_ERRORS
+#define CE_CUSTOM_ERRORS
 
 #ifdef NDEBUG
 
-#define ERROR(exp, type, msg)
+#define CE_ERROR(exp, type, msg)
 
 #else // #if !NDEBUG
 
@@ -13,45 +13,45 @@
 #error "You must be using C89, which is not allowed! Please be at least C99!"
 #endif
 
-#define ERROR_TYPE_WARNING 0
-#define ERROR_TYPE_ASSERTION 1
-#define ERROR_TYPE_FATAL 2
+#define CE_ERROR_TYPE_WARNING 0
+#define CE_ERROR_TYPE_ASSERTION 1
+#define CE_ERROR_TYPE_FATAL 2
 
 #ifdef __cplusplus
-#define ERR_NO_RET [[noreturn]]
+#define CE_NO_RET [[noreturn]]
 extern "C" {
 #endif
 
-#if defined(__STDC_VERSION__) && !defined(ERR_NO_RET)
+#if defined(__STDC_VERSION__) && !defined(CE_NO_RET)
 #if __STDC_VERSION__ >= 202311L
-#define ERR_NO_RET [[noreturn]]
+#define CE_NO_RET [[noreturn]]
 #elif __STDC_VERSION__ >= 201112L
-#define ERR_NO_RET _Noreturn
+#define CE_NO_RET _Noreturn
 #endif
 #endif
 
-#ifndef ERR_NO_RET
-#define ERR_NO_RET
+#ifndef CE_NO_RET
+#define CE_NO_RET
 #endif
 
-ERR_NO_RET
-void err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line, const char * exp);
+CE_NO_RET
+void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line, const char * exp);
 
-void warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * exp);
+void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * exp);
 
 #ifdef __cplusplus
 }
 #endif
 
 // clang-format off
-#define ERROR(exp, type, msg) \
+#define CE_ERROR(exp, type, msg) \
   ((exp)    ? (void)0 \
-   : (type) ? err_handler(type, msg, __FILE_NAME__, __func__, __LINE__, #exp) \
-            : warn_handler(msg, __FILE_NAME__, __func__, __LINE__, #exp))
+   : (type) ? ce_err_handler(type, msg, __FILE_NAME__, __func__, __LINE__, #exp) \
+            : ce_warn_handler(msg, __FILE_NAME__, __func__, __LINE__, #exp))
 // clang-format on
 
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET
-#undef ERR_NO_RET
+#undef CE_NO_RET
 #endif
 
 #endif // !DNDEBUG
@@ -60,4 +60,4 @@ void warn_handler(const char * msg, const char * file, const char * fnc, int lin
 #define static_assert _Static_assert
 #endif
 
-#endif // CUSTOM_ERRORS
+#endif // CE_CUSTOM_ERRORS
