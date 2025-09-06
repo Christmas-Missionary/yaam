@@ -1,7 +1,7 @@
 #ifndef NDEBUG
 
 #define CUSTOM_ERRORS_INCLUDE_NORET
-#include "../src/errors.h"
+#include "custom_errors.h"
 
 #ifdef __cplusplus
 extern "C" {

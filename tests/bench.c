@@ -1,4 +1,4 @@
-#include "../src/errors.h"
+#include "../src/custom_errors.h"
 #include <assert.h>
 #include <stdio.h>
 #include <time.h>

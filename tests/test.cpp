@@ -1,6 +1,6 @@
 #define _LIBCPP_REMOVE_TRANSITIVE_INCLUDES
 
-#include "../src/errors.h"
+#include "../src/custom_errors.h"
 #include <string>
 
 static_assert(sizeof(char) == 1, "God has left us!");
