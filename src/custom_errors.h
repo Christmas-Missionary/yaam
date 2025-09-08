@@ -56,8 +56,13 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 
 #endif // !DNDEBUG
 
-#if !defined(__cplusplus) && defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && __STDC_VERSION__ < 202311L
+#ifndef __cplusplus
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
 #define static_assert _Static_assert
+#else
+#define static_assert(exp, msg)
+#define _Static_assert(exp, msg)
 #endif
+#endif // ifndef __cplusplus
 
 #endif // CE_CUSTOM_ERRORS
