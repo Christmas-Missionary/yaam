@@ -33,11 +33,6 @@ static std::string malloc_all_caps(std::string const& src) {
   return res;
 }
 
-typedef struct {
-  char * data;
-  size_t size;
-} fat_str;
-
 #include <array>
 #include <iostream>
 
