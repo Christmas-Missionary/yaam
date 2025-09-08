@@ -149,10 +149,12 @@ ipch/
 .DS_Store
 .vscode
 a
-oa
-oa32
 libc
 *.sh
 todo.txt
 c
 b
+.cache
+lib
+builds
+exe
