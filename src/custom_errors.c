@@ -7,9 +7,6 @@
 extern "C" {
 #endif
 
-CE_NO_RET void abort(void);
-int printf(const char * fmt, ...);
-
 static inline const char * typetostr(const unsigned char type) {
   switch (type) {
     case CE_ERROR_TYPE_WARNING:
@@ -28,6 +25,8 @@ static inline const char * typetostr(const unsigned char type) {
   "\33[38;5;51m%s\33[0m, Expression: \33[38;5;51m%s\33[0m\n"
 // clang-format on
 
+int printf(const char * fmt, ...);
+
 extern void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * exp) {
   (void)printf(ERR_STR, typetostr(CE_ERROR_TYPE_WARNING), file, fnc, line, msg, exp);
 }
@@ -37,6 +36,7 @@ extern void ce_err_handler(unsigned char type, const char * msg, const char * fi
                            const char * exp) {
   (void)printf(ERR_STR, typetostr(type), file, fnc, line, msg, exp);
   (void)printf("\33[38;5;196mAborting Now!\33[0m\n");
+  CE_NO_RET void abort(void);
   abort();
 }
 
