@@ -7,12 +7,6 @@
 
 #else // #if !NDEBUG
 
-#if defined(__cplusplus) && __cplusplus < 201103L
-#error "C++ version is too early! It must be at least C++11!"
-#elif !defined(__cplusplus) && (!defined(__STDC_VERSION__) || __STDC_VERSION__ == 199409L)
-#error "You must be using C89, which is not allowed! Please be at least C99!"
-#endif
-
 #define CE_ERROR_TYPE_WARNING 0
 #define CE_ERROR_TYPE_ASSERTION 1
 #define CE_ERROR_TYPE_FATAL 2
