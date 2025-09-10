@@ -64,5 +64,7 @@ int main(void) {
   CE_ERROR(malloc_all_caps("A", 0) == NULL, CE_ERROR_TYPE_ASSERTION, "Not null!");
   CE_ERROR(malloc_all_caps("", 1) == NULL, CE_ERROR_TYPE_ASSERTION, "Not null!");
   puts("There should be 3 warnings above. If not, something is wrong.");
+  CE_ERROR(0, CE_ERROR_TYPE_ASSERTION, "This should abort the program!");
+  puts("If you see this message, assertion wasn't handled!");
   return 0;
 }

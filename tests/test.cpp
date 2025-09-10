@@ -55,5 +55,8 @@ int main() {
   CE_ERROR(std::string{} == malloc_all_caps(""), CE_ERROR_TYPE_ASSERTION, "Not empty!");
 
   std::cout << "There should be 1 warning above. If not, something is wrong.\n";
+
+  CE_ERROR(0, CE_ERROR_TYPE_FATAL, "This should abort the program!");
+  puts("If you see this message, fatal error wasn't handled!");
   return 0;
 }
