@@ -14,8 +14,15 @@ else() # when PROJECT_IS_TOP_LEVEL
 
   # Build tests
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY exe)
-  add_executable(bench src/custom_errors.c tests/bench.c)
-  add_executable(c_test src/custom_errors.c tests/test.c)
+
   add_executable(cpp_test src/custom_errors.c tests/test.cpp)
+  #if windows, define __cplusplus
+  target_compile_features(cpp_test PRIVATE cxx_std_17)
+
+  add_executable(bench src/custom_errors.c tests/bench.c)
+  target_compile_features(bench PRIVATE c_std_17)
+
+  add_executable(c_test src/custom_errors.c tests/test.c)
+  target_compile_features(c_test PRIVATE c_std_17)
 
 endif()
