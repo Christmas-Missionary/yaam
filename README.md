@@ -1,5 +1,7 @@
 
+# Usage  
 
+It is best to include `custom_errors.h` and `custom_errors.c` directly in your project, as making them into a library adds unnecessary complexity. The use of CMake is only for the building of the tests.
 
 # How to build
 
@@ -7,11 +9,6 @@ To build the tests:
 
     cmake -S . -B builds;  
     cmake --build builds;
-
-Though the library is built automatically if this repo is not in the top level, there is an option to build the library anyway:
-
-    cmake -S . -B lib -DBUILD_CUSTOM_ERRORS_LIBRARY:BOOL=ON;
-    cmake --build lib;
 
 # FAQ (No one has asked me these questions.)
 
