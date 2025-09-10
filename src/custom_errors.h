@@ -46,8 +46,8 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 // clang-format off
 #define CE_ERROR(exp, type, msg) \
   ((exp)    ? (void)0 \
-   : (type) ? ce_err_handler(type, msg, __FILE_NAME__, __func__, __LINE__, #exp) \
-            : ce_warn_handler(msg, __FILE_NAME__, __func__, __LINE__, #exp))
+   : (type) ? ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #exp) \
+            : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
 // clang-format on
 
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET
