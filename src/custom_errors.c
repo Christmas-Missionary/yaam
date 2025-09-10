@@ -25,7 +25,12 @@ static inline const char * typetostr(const unsigned char type) {
   "\33[38;5;51m%s\33[0m, Expression: \33[38;5;51m%s\33[0m\n"
 // clang-format on
 
+#ifdef _WIN32
+// printf could be inlined, which requires definition, which I'm not touching
+#include <stdio.h>
+#else
 int printf(const char * fmt, ...);
+#endif
 
 extern void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * exp) {
   (void)printf(ERR_STR, typetostr(CE_ERROR_TYPE_WARNING), file, fnc, line, msg, exp);
