@@ -37,6 +37,15 @@ static std::string malloc_all_caps(std::string const& src) {
 #include <iostream>
 
 int main() {
+  constexpr long cpp_version = (
+#ifdef _WIN32
+    _MSVC_LANG
+#else
+    __cplusplus
+#endif
+    );
+  std::cout << "C++ standard version: " << cpp_version << "\n";
+
   const std::array<std::string, 4> strs = {"Hello.", "123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*", "qwertyuiopasdfghjklzxcvbnm", "POIUYTREWQLKJHGFDSAMNBVCXZ"};
 
   CE_ERROR("HELLO." == malloc_all_caps(strs[0]), CE_ERROR_TYPE_ASSERTION, "Not equal!");

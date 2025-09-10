@@ -26,6 +26,9 @@ static inline const char * typetostr(const int type) {
 
 
 int main(void) {
+#ifdef __STDC_VERSION__
+  printf("C standard version: %ld\n", __STDC_VERSION__);
+#endif
   const int test = VAL_TO_TEST;
   for (int j = 0; j < 3; j++) {
     clock_t time = clock();

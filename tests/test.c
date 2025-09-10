@@ -45,6 +45,9 @@ typedef struct {
 } fat_str;
 
 int main(void) {
+#ifdef __STDC_VERSION__
+  printf("C standard version: %ld\n", __STDC_VERSION__);
+#endif
   fat_str strs[4] = {(fat_str){"Hello.", 7}, (fat_str){"123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*", 55},
                      (fat_str){"qwertyuiopasdfghjklzxcvbnm", 27}, (fat_str){"POIUYTREWQLKJHGFDSAMNBVCXZ", 27}};
 
