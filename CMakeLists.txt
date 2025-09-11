@@ -12,5 +12,3 @@ target_compile_features(cpp_test PRIVATE cxx_std_17)
 
 add_executable(c_test src/custom_errors.c tests/test.c)
 target_compile_features(c_test PRIVATE c_std_17)
-
-

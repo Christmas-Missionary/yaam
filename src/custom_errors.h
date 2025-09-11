@@ -3,13 +3,15 @@
 
 #ifdef NDEBUG
 
+// Wipes everything inside it, including calls to other funcs/macros
 #define CE_ERROR(exp, type, msg)
 
 #else // #if !NDEBUG
 
-#define CE_ERROR_TYPE_WARNING 0
-#define CE_ERROR_TYPE_ASSERTION 1
-#define CE_ERROR_TYPE_FATAL 2
+// discount enum
+#define CE_ERROR_TYPE_WARNING 0 // From an external user, recoverable
+#define CE_ERROR_TYPE_ASSERTION 1 // From an external user, non-recoverable
+#define CE_ERROR_TYPE_FATAL 2 // Internal error, invalid/unforgivable
 
 #ifdef __cplusplus
 #define CE_NO_RET [[noreturn]]
@@ -24,6 +26,8 @@ extern "C" {
 #endif
 #endif
 
+// `CE_NO_RET` helps static analyzers determine if code is reachable.
+// If it isn't, there are less false positives.
 #ifndef CE_NO_RET
 #define CE_NO_RET
 #endif
@@ -44,12 +48,14 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
             : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
 // clang-format on
 
+// convenience macro for noreturn, if needed
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET
 #undef CE_NO_RET
 #endif
 
 #endif // !DNDEBUG
 
+// convenience macro for static_assert, if in C
 #ifndef __cplusplus
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
 #define static_assert _Static_assert

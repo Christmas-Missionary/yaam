@@ -1,4 +1,6 @@
 #ifndef NDEBUG
+// wipes everything if NDEBUG is defined
+// No need to exclude this file in a release build, but is recommended
 
 #define CUSTOM_ERRORS_INCLUDE_NORET
 #include "custom_errors.h"
