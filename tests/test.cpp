@@ -6,18 +6,18 @@
 static_assert(sizeof(char) == 1, "God has left us!");
 
 // src - reference of source string
-static std::string malloc_all_caps(std::string const& src) {
-  std::string res {};
+static std::string malloc_all_caps(std::string const & src) {
+  std::string res{};
   const std::string::size_type size = src.size();
-  CE_ERROR(size != 0, CE_ERROR_TYPE_WARNING, "No size for the string!");
+  CE_WARNING(size != 0, "No size for the string!");
   if (size == 0) {
     return res;
   }
 
   try {
     res.reserve(size);
-  } catch (...){
-    CE_ERROR(false, CE_ERROR_TYPE_WARNING, "Couldn't malloc new string!");
+  } catch (...) {
+    CE_WARNING(false, "Couldn't malloc new string!");
     return res;
   }
 
@@ -43,20 +43,23 @@ int main() {
 #else
     __cplusplus
 #endif
-    );
+  );
   std::cout << "C++ standard version: " << cpp_version << "\n";
 
-  const std::array<std::string, 4> strs = {"Hello.", "123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*", "qwertyuiopasdfghjklzxcvbnm", "POIUYTREWQLKJHGFDSAMNBVCXZ"};
+  const std::array<std::string, 4> strs = {"Hello.", "123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*",
+                                           "qwertyuiopasdfghjklzxcvbnm", "POIUYTREWQLKJHGFDSAMNBVCXZ"};
 
-  CE_ERROR("HELLO." == malloc_all_caps(strs[0]), CE_ERROR_TYPE_ASSERTION, "Not equal!");
-  CE_ERROR("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*" == malloc_all_caps(strs[1]), CE_ERROR_TYPE_ASSERTION, "Not equal!");
-  CE_ERROR("QWERTYUIOPASDFGHJKLZXCVBNM" == malloc_all_caps(strs[2]), CE_ERROR_TYPE_ASSERTION, "Not equal!");
-  CE_ERROR("POIUYTREWQLKJHGFDSAMNBVCXZ" == malloc_all_caps(strs[3]), CE_ERROR_TYPE_ASSERTION, "Not equal!");
-  CE_ERROR(std::string{} == malloc_all_caps(""), CE_ERROR_TYPE_ASSERTION, "Not empty!");
+  CE_ERROR("HELLO." == malloc_all_caps(strs[0]), "Not equal!", CE_ERROR_TYPE_REGULAR);
+  CE_ERROR("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*" == malloc_all_caps(strs[1]),
+           "Not equal!",
+           CE_ERROR_TYPE_REGULAR);
+  CE_ERROR("QWERTYUIOPASDFGHJKLZXCVBNM" == malloc_all_caps(strs[2]), "Not equal!", CE_ERROR_TYPE_REGULAR);
+  CE_ERROR("POIUYTREWQLKJHGFDSAMNBVCXZ" == malloc_all_caps(strs[3]), "Not equal!", CE_ERROR_TYPE_REGULAR);
+  CE_ERROR(std::string{} == malloc_all_caps(""), "Not empty!", CE_ERROR_TYPE_REGULAR);
 
   std::cout << "There should be 1 warning above. If not, something is wrong.\n";
 
-  CE_ERROR(0, CE_ERROR_TYPE_FATAL, "This should abort the program!");
+  CE_ERROR(0, "This should abort the program!", CE_ERROR_TYPE_FATAL);
   puts("If you see this message, fatal error wasn't handled!");
   return 0;
 }

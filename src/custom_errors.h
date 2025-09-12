@@ -5,13 +5,16 @@
 
 // Wipes everything inside it, including calls to other funcs/macros
 #define CE_ERROR(exp, type, msg)
+#define CE_WARNING(exp, type, msg)
 
 #else // #if !NDEBUG
 
 // discount enum
-#define CE_ERROR_TYPE_WARNING 0 // From an external user, recoverable
-#define CE_ERROR_TYPE_ASSERTION 1 // From an external user, non-recoverable
-#define CE_ERROR_TYPE_FATAL 2 // Internal error, invalid/unforgivable
+#define CE_ERROR_TYPE_REGULAR 0
+// From an external user
+
+#define CE_ERROR_TYPE_FATAL 1
+// Internal error
 
 #ifdef __cplusplus
 #define CE_NO_RET [[noreturn]]
@@ -33,7 +36,8 @@ extern "C" {
 #endif
 
 CE_NO_RET
-void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line, const char * exp);
+void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
+                    const char * exp);
 
 void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * exp);
 
@@ -41,12 +45,11 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 }
 #endif
 
-// clang-format off
-#define CE_ERROR(exp, type, msg) \
-  ((exp)    ? (void)0 \
-   : (type) ? ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #exp) \
-            : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
-// clang-format on
+
+#define CE_ERROR(exp, msg, type) ((exp) ? (void)0 : ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #exp))
+
+#define CE_WARNING(exp, msg) ((exp) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
+
 
 // convenience macro for noreturn, if needed
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET
