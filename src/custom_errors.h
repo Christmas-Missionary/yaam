@@ -7,7 +7,7 @@
 #define CE_ERROR(exp, type, msg)
 #define CE_WARNING(exp, type, msg)
 
-#else // #if !NDEBUG
+#else // #ifndef NDEBUG
 
 // discount enum
 #define CE_ERROR_TYPE_REGULAR 0
@@ -27,7 +27,7 @@ extern "C" {
 #elif __STDC_VERSION__ >= 201112L
 #define CE_NO_RET _Noreturn
 #endif
-#endif
+#endif // defined(__STDC_VERSION__) && !defined(CE_NO_RET)
 
 // `CE_NO_RET` helps static analyzers determine if code is reachable.
 // If it isn't, there are less false positives.
@@ -45,11 +45,9 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 }
 #endif
 
-
 #define CE_ERROR(exp, msg, type) ((exp) ? (void)0 : ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #exp))
 
 #define CE_WARNING(exp, msg) ((exp) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
-
 
 // convenience macro for noreturn, if needed
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET
