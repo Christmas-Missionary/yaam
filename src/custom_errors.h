@@ -32,7 +32,7 @@
 
 #define CE_ERROR(exp, msg, type) __assume(exp)
 
-#elif defined(__clang__) // Not MSVC, but Clang
+#elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
 
 #define CE_ERROR(exp, msg, type) __builtin_assume(exp)
 
