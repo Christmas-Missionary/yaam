@@ -22,7 +22,7 @@
 #ifdef CE_ASSUME
 
 // Wipe all warnings
-#define CE_WARNING(exp, type)
+#define CE_WARNING(exp, msg)
 
 #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
 
