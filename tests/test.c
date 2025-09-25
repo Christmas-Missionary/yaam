@@ -33,7 +33,7 @@ static char * malloc_all_caps(const char * src, const size_t size) {
     }
     res[index] = chr;
   }
-  CE_ERROR(index <= size, "Index is greater than length of string!", CE_ERROR_TYPE_FATAL);
+  CE_FATAL(index <= size, "Index is greater than length of string!");
   CE_WARN(index == size - 1, "String is less than length given!");
   res[index] = 0;
   return res;
@@ -51,20 +51,18 @@ int main(void) {
   fat_str strs[4] = {(fat_str){"Hello.", 7}, (fat_str){"123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*", 55},
                      (fat_str){"qwertyuiopasdfghjklzxcvbnm", 27}, (fat_str){"POIUYTREWQLKJHGFDSAMNBVCXZ", 27}};
 
-  CE_ERROR(strcmp("HELLO.", malloc_all_caps(strs[0].data, strs[0].size)) == 0, "Not equal!", CE_ERROR_TYPE_REGULAR);
+  CE_ERROR(strcmp("HELLO.", malloc_all_caps(strs[0].data, strs[0].size)) == 0, "Not equal!");
   CE_ERROR(
     strcmp("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*", malloc_all_caps(strs[1].data, strs[1].size)) == 0,
-    "Not equal!", CE_ERROR_TYPE_REGULAR);
-  CE_ERROR(strcmp("QWERTYUIOPASDFGHJKLZXCVBNM", malloc_all_caps(strs[2].data, strs[2].size)) == 0, "Not equal!",
-           CE_ERROR_TYPE_REGULAR);
-  CE_ERROR(strcmp("POIUYTREWQLKJHGFDSAMNBVCXZ", malloc_all_caps(strs[3].data, strs[3].size)) == 0, "Not equal!",
-           CE_ERROR_TYPE_REGULAR);
-  CE_ERROR(strcmp("TEST", malloc_all_caps("Testing", 5)) == 0, "Not equal!", CE_ERROR_TYPE_REGULAR);
-  CE_ERROR(malloc_all_caps(NULL, 1) == NULL, "Not null!", CE_ERROR_TYPE_REGULAR);
-  CE_ERROR(malloc_all_caps("A", 0) == NULL, "Not null!", CE_ERROR_TYPE_REGULAR);
-  CE_ERROR(malloc_all_caps("", 1) == NULL, "Not null!", CE_ERROR_TYPE_REGULAR);
+    "Not equal!");
+  CE_ERROR(strcmp("QWERTYUIOPASDFGHJKLZXCVBNM", malloc_all_caps(strs[2].data, strs[2].size)) == 0, "Not equal!");
+  CE_ERROR(strcmp("POIUYTREWQLKJHGFDSAMNBVCXZ", malloc_all_caps(strs[3].data, strs[3].size)) == 0, "Not equal!");
+  CE_ERROR(strcmp("TEST", malloc_all_caps("Testing", 5)) == 0, "Not equal!");
+  CE_ERROR(malloc_all_caps(NULL, 1) == NULL, "Not null!");
+  CE_ERROR(malloc_all_caps("A", 0) == NULL, "Not null!");
+  CE_ERROR(malloc_all_caps("", 1) == NULL, "Not null!");
   puts("There should be 3 warnings above. If not, something is wrong.");
-  CE_ERROR(0, "This should abort the program!", CE_ERROR_TYPE_REGULAR);
+  CE_ERROR(0, "This should abort the program!");
   puts("If you see this message, assertion wasn't handled!");
   return 0;
 }

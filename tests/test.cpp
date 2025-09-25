@@ -49,17 +49,15 @@ int main() {
   const std::array<std::string, 4> strs = {"Hello.", "123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*",
                                            "qwertyuiopasdfghjklzxcvbnm", "POIUYTREWQLKJHGFDSAMNBVCXZ"};
 
-  CE_ERROR("HELLO." == malloc_all_caps(strs[0]), "Not equal!", CE_ERROR_TYPE_REGULAR);
-  CE_ERROR("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*" == malloc_all_caps(strs[1]),
-           "Not equal!",
-           CE_ERROR_TYPE_REGULAR);
-  CE_ERROR("QWERTYUIOPASDFGHJKLZXCVBNM" == malloc_all_caps(strs[2]), "Not equal!", CE_ERROR_TYPE_REGULAR);
-  CE_ERROR("POIUYTREWQLKJHGFDSAMNBVCXZ" == malloc_all_caps(strs[3]), "Not equal!", CE_ERROR_TYPE_REGULAR);
-  CE_ERROR(std::string{} == malloc_all_caps(""), "Not empty!", CE_ERROR_TYPE_REGULAR);
+  CE_ERROR("HELLO." == malloc_all_caps(strs[0]), "Not equal!");
+  CE_ERROR("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*" == malloc_all_caps(strs[1]), "Not equal!");
+  CE_ERROR("QWERTYUIOPASDFGHJKLZXCVBNM" == malloc_all_caps(strs[2]), "Not equal!");
+  CE_ERROR("POIUYTREWQLKJHGFDSAMNBVCXZ" == malloc_all_caps(strs[3]), "Not equal!");
+  CE_ERROR(std::string{} == malloc_all_caps(""), "Not empty!");
 
   std::cout << "There should be 1 warning above. If not, something is wrong.\n";
 
-  CE_ERROR(0, "This should abort the program!", CE_ERROR_TYPE_FATAL);
+  CE_FATAL(0, "This should abort the program!");
   puts("If you see this message, fatal error wasn't handled!");
   return 0;
 }

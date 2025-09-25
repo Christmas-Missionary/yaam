@@ -26,7 +26,7 @@ char stuff(int num) {
     case 10:
       return 76;
     default:
-      CE_ERROR(false, "Number is between 1 and 10 inclusive!", CE_ERROR_TYPE_REGULAR);
+      CE_ERROR(false, "Number is between 1 and 10 inclusive!");
       return 0;
   }
 }

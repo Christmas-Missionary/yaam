@@ -2,98 +2,115 @@
 #define CE_CUSTOM_ERRORS
 
 #ifdef __cplusplus
-#define CE_NO_RET [[noreturn]]
+  #define CE_NO_RET [[noreturn]]
 #endif
 
 #if defined(__STDC_VERSION__) && !defined(CE_NO_RET)
-#if __STDC_VERSION__ >= 202311L
-#define CE_NO_RET [[noreturn]]
-#elif __STDC_VERSION__ >= 201112L
-#define CE_NO_RET _Noreturn
-#endif
+  #if __STDC_VERSION__ >= 202311L
+    #define CE_NO_RET [[noreturn]]
+  #elif __STDC_VERSION__ >= 201112L
+    #define CE_NO_RET _Noreturn
+  #endif
 #endif // defined(__STDC_VERSION__) && !defined(CE_NO_RET)
 
 // `CE_NO_RET` helps static analyzers determine if code is reachable.
 // If it isn't, there are less false positives.
 #ifndef CE_NO_RET
-#define CE_NO_RET
+  #define CE_NO_RET
 #endif
 
-#ifdef CE_ASSUME
+#if defined(CE_NO_WARN) || defined(NDEBUG)
+  #define CE_WARN(expr, msg)
+#elif defined(CE_ASSUME_WARN) || defined(CE_ASSUME_ALL)
 
-// Wipe all warnings
-#define CE_WARN(expr, msg)
+  #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
+    #define CE_WARN(expr, msg) [[assume(expr)]]
+  #elif defined(_MSC_VER) // #if Not C++23
+    #define CE_WARN(expr, msg) __assume(expr)
+  #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+    #define CE_WARN(expr, msg) __builtin_assume(expr)
+  #elif defined(__GNUC__) // Not Clang, but GCC
+    #define CE_WARN(expr, msg) __attribute__((assume(expr)))
+  #else // None of the above
+    #define CE_WARN(expr, msg)
+  #endif // #ifdef CE_ASSUME
 
-#if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
+#endif // CE_ASSUME_WARN or CE_ASSUME_ALL
 
-#define CE_ERROR(expr, msg, type) [[assume(expr)]]
+#if defined(CE_NO_ERROR) || defined(NDEBUG)
+  #define CE_ERROR(expr, msg)
+#elif defined(CE_ASSUME_ERROR) || defined(CE_ASSUME_ALL)
 
-#elif defined(_MSC_VER) // #if Not C++23
+  #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
+    #define CE_ERROR(expr, msg) [[assume(expr)]]
+  #elif defined(_MSC_VER) // #if Not C++23
+    #define CE_ERROR(expr, msg) __assume(expr)
+  #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+    #define CE_ERROR(expr, msg) __builtin_assume(expr)
+  #elif defined(__GNUC__) // Not Clang, but GCC
+    #define CE_ERROR(expr, msg) __attribute__((assume(expr)))
+  #else // None of the above
+    #define CE_ERROR(expr, msg)
+  #endif // #ifdef CE_ASSUME
 
-#define CE_ERROR(expr, msg, type) __assume(expr)
+#endif // CE_ASSUME_ERROR or CE_ASSUME_ALL
 
-#elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+#if defined(CE_NO_FATAL) || defined(NDEBUG)
+  #define CE_FATAL(expr, msg)
+#elif defined(CE_ASSUME_FATAL) || defined(CE_ASSUME_ALL)
 
-#define CE_ERROR(expr, msg, type) __builtin_assume(expr)
+  #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
+    #define CE_FATAL(expr, msg) [[assume(expr)]]
+  #elif defined(_MSC_VER) // #if Not C++23
+    #define CE_FATAL(expr, msg) __assume(expr)
+  #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+    #define CE_FATAL(expr, msg) __builtin_assume(expr)
+  #elif defined(__GNUC__) // Not Clang, but GCC
+    #define CE_FATAL(expr, msg) __attribute__((assume(expr)))
+  #else // None of the above
+    #define CE_FATAL(expr, msg)
+  #endif // #ifdef CE_ASSUME
 
-#elif defined(__GNUC__) // Not Clang, but GCC
-
-#define CE_ERROR(expr, msg, type) __attribute__((assume(expr)))
-
-#else // None of the above
-
-#define CE_ERROR(expr, msg, type)
-
-#endif // #ifdef CE_ASSUME
-
-#elif defined(NDEBUG) // #ifndef CE_ASSUME && #ifdef NDEBUG
-
-// Wipes everything inside it, including calls to other funcs/macros
-#define CE_ERROR(expr, msg, type)
-#define CE_WARN(expr, msg)
-
-#else // #ifndef NDEBUG
-
-// discount enum
-#define CE_ERROR_TYPE_REGULAR 0
-// From an external user
-
-#define CE_ERROR_TYPE_FATAL 1
-// Internal error
+#endif // CE_ASSUME_FATAL or CE_ASSUME_ALL
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#if !defined(CE_ERROR) || !defined(CE_FATAL)
 CE_NO_RET
 void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
                     const char * expr);
+  #if !defined(CE_ERROR)
+    #define CE_ERROR(expr, msg) ((expr) ? (void)0 : ce_err_handler(0, msg, __FILE__, __func__, __LINE__, #expr))
+  #endif
+  #if !defined(CE_FATAL)
+    #define CE_FATAL(expr, msg) ((expr) ? (void)0 : ce_err_handler(1, msg, __FILE__, __func__, __LINE__, #expr))
+  #endif
+#endif
 
+#if !defined(CE_WARN)
 void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * expr);
+  #define CE_WARN(expr, msg) ((expr) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #expr))
+#endif
 
 #ifdef __cplusplus
 }
 #endif
 
-#define CE_ERROR(expr, msg, type) ((expr) ? (void)0 : ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #expr))
-
-#define CE_WARN(expr, msg) ((expr) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #expr))
-
 // convenience macro for noreturn, if needed
-#ifndef CUSTOM_ERRORS_INCLUDE_NORET
-#undef CE_NO_RET
+#ifndef CE_INCLUDE_NORET
+  #undef CE_NO_RET
 #endif
-
-#endif // !CE_ASSUME
 
 // convenience macro for static_assert, if in C
 #ifndef __cplusplus
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
-#define static_assert _Static_assert
-#else
-#define static_assert(expr, msg)
-#define _Static_assert(expr, msg)
-#endif
+  #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
+    #define static_assert _Static_assert
+  #else
+    #define static_assert(expr, msg)
+    #define _Static_assert(expr, msg)
+  #endif
 #endif // ifndef __cplusplus
 
 #endif // CE_CUSTOM_ERRORS

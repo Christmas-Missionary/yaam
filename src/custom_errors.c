@@ -1,13 +1,6 @@
-#ifndef NDEBUG
-// wipes everything if NDEBUG is defined
-// No need to exclude this file in a release build, but is recommended
-
-#define CUSTOM_ERRORS_INCLUDE_NORET
+#define CE_INCLUDE_NORET
 #include "custom_errors.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 // clang-format off
 #define ERR_STR \
@@ -15,11 +8,11 @@ extern "C" {
   "\33[38;5;51m%s\33[0m, Expression: \33[38;5;51m%s\33[0m\n"
 // clang-format on
 
-#ifdef _WIN32
-// printf could be inlined, which requires definition, which I'm not touching
-#include <stdio.h>
+#ifdef __cplusplus
+  #include <cstdio>
+extern "C" {
 #else
-int printf(const char * fmt, ...);
+  #include <stdio.h>
 #endif
 
 extern void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * expr) {
@@ -39,6 +32,3 @@ extern void ce_err_handler(unsigned char type, const char * msg, const char * fi
 #ifdef __cplusplus
 }
 #endif
-
-
-#endif // NDEBUG
