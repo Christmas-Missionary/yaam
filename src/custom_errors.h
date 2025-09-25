@@ -22,7 +22,7 @@
 #ifdef CE_ASSUME
 
 // Wipe all warnings
-#define CE_WARNING(exp, msg)
+#define CE_WARN(exp, msg)
 
 #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
 
@@ -50,7 +50,7 @@
 
 // Wipes everything inside it, including calls to other funcs/macros
 #define CE_ERROR(exp, msg, type)
-#define CE_WARNING(exp, msg)
+#define CE_WARN(exp, msg)
 
 #else // #ifndef NDEBUG
 
@@ -77,7 +77,7 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 
 #define CE_ERROR(exp, msg, type) ((exp) ? (void)0 : ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #exp))
 
-#define CE_WARNING(exp, msg) ((exp) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
+#define CE_WARN(exp, msg) ((exp) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
 
 // convenience macro for noreturn, if needed
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET

@@ -9,7 +9,7 @@ static_assert(sizeof(char) == 1, "God has left us!");
 static std::string malloc_all_caps(std::string const & src) {
   std::string res{};
   const std::string::size_type size = src.size();
-  CE_WARNING(size != 0, "No size for the string!");
+  CE_WARN(size != 0, "No size for the string!");
   if (size == 0) {
     return res;
   }
@@ -17,7 +17,7 @@ static std::string malloc_all_caps(std::string const & src) {
   try {
     res.reserve(size);
   } catch (...) {
-    CE_WARNING(false, "Couldn't malloc new string!");
+    CE_WARN(false, "Couldn't malloc new string!");
     return res;
   }
 

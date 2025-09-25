@@ -8,18 +8,18 @@ static_assert(sizeof(char) == 1, "God has left us!");
 // src - source string to convert, size - length of string + null byte
 // Example: ("Cats", 5) -> "CATS"
 static char * malloc_all_caps(const char * src, const size_t size) {
-  CE_WARNING(src != NULL, "No string at all to convert!");
-  CE_WARNING(size != 0, "No size for the string!");
+  CE_WARN(src != NULL, "No string at all to convert!");
+  CE_WARN(size != 0, "No size for the string!");
   if (src == NULL || size == 0) {
     return NULL;
   }
-  CE_WARNING(src[0] != 0, "No size for the string!");
+  CE_WARN(src[0] != 0, "No size for the string!");
   if (src[0] == 0) {
     return NULL;
   }
 
   char * res = malloc(size);
-  CE_WARNING(res != NULL, "Couldn't malloc new string!");
+  CE_WARN(res != NULL, "Couldn't malloc new string!");
   if (res == NULL) {
     return NULL;
   }
@@ -34,7 +34,7 @@ static char * malloc_all_caps(const char * src, const size_t size) {
     res[index] = chr;
   }
   CE_ERROR(index <= size, "Index is greater than length of string!", CE_ERROR_TYPE_FATAL);
-  CE_WARNING(index == size - 1, "String is less than length given!");
+  CE_WARN(index == size - 1, "String is less than length given!");
   res[index] = 0;
   return res;
 }
