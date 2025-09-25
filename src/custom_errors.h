@@ -22,35 +22,35 @@
 #ifdef CE_ASSUME
 
 // Wipe all warnings
-#define CE_WARN(exp, msg)
+#define CE_WARN(expr, msg)
 
 #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
 
-#define CE_ERROR(exp, msg, type) [[assume(exp)]]
+#define CE_ERROR(expr, msg, type) [[assume(expr)]]
 
 #elif defined(_MSC_VER) // #if Not C++23
 
-#define CE_ERROR(exp, msg, type) __assume(exp)
+#define CE_ERROR(expr, msg, type) __assume(expr)
 
 #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
 
-#define CE_ERROR(exp, msg, type) __builtin_assume(exp)
+#define CE_ERROR(expr, msg, type) __builtin_assume(expr)
 
 #elif defined(__GNUC__) // Not Clang, but GCC
 
-#define CE_ERROR(exp, msg, type) __attribute__((assume(exp)))
+#define CE_ERROR(expr, msg, type) __attribute__((assume(expr)))
 
 #else // None of the above
 
-#define CE_ERROR(exp, msg, type)
+#define CE_ERROR(expr, msg, type)
 
 #endif // #ifdef CE_ASSUME
 
 #elif defined(NDEBUG) // #ifndef CE_ASSUME && #ifdef NDEBUG
 
 // Wipes everything inside it, including calls to other funcs/macros
-#define CE_ERROR(exp, msg, type)
-#define CE_WARN(exp, msg)
+#define CE_ERROR(expr, msg, type)
+#define CE_WARN(expr, msg)
 
 #else // #ifndef NDEBUG
 
@@ -67,17 +67,17 @@ extern "C" {
 
 CE_NO_RET
 void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
-                    const char * exp);
+                    const char * expr);
 
-void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * exp);
+void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * expr);
 
 #ifdef __cplusplus
 }
 #endif
 
-#define CE_ERROR(exp, msg, type) ((exp) ? (void)0 : ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #exp))
+#define CE_ERROR(expr, msg, type) ((expr) ? (void)0 : ce_err_handler(type, msg, __FILE__, __func__, __LINE__, #expr))
 
-#define CE_WARN(exp, msg) ((exp) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #exp))
+#define CE_WARN(expr, msg) ((expr) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #expr))
 
 // convenience macro for noreturn, if needed
 #ifndef CUSTOM_ERRORS_INCLUDE_NORET
@@ -91,8 +91,8 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
 #define static_assert _Static_assert
 #else
-#define static_assert(exp, msg)
-#define _Static_assert(exp, msg)
+#define static_assert(expr, msg)
+#define _Static_assert(expr, msg)
 #endif
 #endif // ifndef __cplusplus
 
