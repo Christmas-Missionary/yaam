@@ -1,9 +1,16 @@
 #include "../src/custom_errors.h"
-#include <chrono>
-#include <iostream>
-#include <random>
 
-char stuff(int num) {
+#include <vector>
+
+int warn(int num) {
+  CE_WARN(num == 4, "Number is supposed to be 4!");
+  int stuff = (num + 4) * (num - 10) * (num - 5) / 2;
+  int more_stuff = stuff * 4 + (num / 3) + 20;
+  return more_stuff + stuff - num;
+}
+
+char reg(int num) {
+  CE_ERROR(num == 1, "Number is supposed to be 1!");
   switch (num) {
     case 1:
       return 10;
@@ -26,22 +33,17 @@ char stuff(int num) {
     case 10:
       return 76;
     default:
-      CE_ERROR(false, "Number is between 1 and 10 inclusive!");
       return 0;
   }
 }
 
-int main() {
-  std::mt19937 rng(std::random_device{}());
-  std::uniform_int_distribution<int> dist(1, 10);
-
-  using namespace std::chrono;
-  auto start = high_resolution_clock::now();
-  int to_print = 0;
-  for (int i = 0; i < 100'000'000; i++) {
-    to_print = dist(rng);
+long fatal(std::vector<long> const & vec) {
+  const auto size = vec.size();
+  CE_FATAL(size == 3, "Ptr is null!");
+  long res = 0;
+  for (unsigned long i = 0; i < size; i++) {
+    res += vec.at(i);
   }
-  long long duration_count = duration_cast<milliseconds>(high_resolution_clock::now() - start).count();
-  std::cout << "Time was " << duration_count << " milliseconds.\nNumber is " << to_print << '\n';
-  return 0;
+
+  return res;
 }

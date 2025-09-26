@@ -150,7 +150,9 @@ ipch/
 .vscode
 a
 libc
-*.sh
+s.sh
+d.sh
+b.sh
 todo.txt
 c
 b
@@ -159,3 +161,5 @@ lib
 builds
 exe
 .vs
+*.s
+*.asm
