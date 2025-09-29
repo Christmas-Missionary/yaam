@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+if [ ${PWD##*/} = "custom-errors" ]; then
+  cd tests
+elif [ ${PWD##*/} != "tests" ]; then
+  echo "Please set the directory to 'tests'!"
+  exit
+fi
+
+if [ ! -d "exe" ]; then
+  mkdir exe
+fi
+
+cc -g -Wall -Wextra -Wpedantic ../src/custom_errors.c test.c -o exe/c_test -std=c17
+g++ -g -Wall -Wextra -Wpedantic ../src/custom_errors.c test.cpp -o exe/cpp_test -std=c++23
+
+./exe/c_test
+./exe/cpp_test
+
 if [ ! -d "basic" ]; then
   mkdir basic
 fi
