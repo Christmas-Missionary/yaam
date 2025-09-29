@@ -5,12 +5,16 @@
 
 static_assert(sizeof(char) == 1, "God has left us!");
 
+#define MAX_ITER 1000
+
 // src - source string to convert, size - length of string + null byte
 // Example: ("Cats", 5) -> "CATS"
-static char * malloc_all_caps(const char * src, const size_t size) {
+static char * malloc_all_caps(char * restrict dst, const char * src, const size_t size) {
+  CE_WARN(dst != NULL, "No string at all to return!");
   CE_WARN(src != NULL, "No string at all to convert!");
   CE_WARN(size != 0, "No size for the string!");
-  if (src == NULL || size == 0) {
+  CE_WARN(size <= 1000, "All loops should be at most 1000 iterations!");
+  if (src == NULL || dst == NULL || size == 0) {
     return NULL;
   }
   CE_WARN(src[0] != 0, "No size for the string!");
@@ -18,25 +22,19 @@ static char * malloc_all_caps(const char * src, const size_t size) {
     return NULL;
   }
 
-  char * res = malloc(size);
-  CE_WARN(res != NULL, "Couldn't malloc new string!");
-  if (res == NULL) {
-    return NULL;
-  }
-
   size_t index = 0;
   for (; (index < size - 1) && (src[index] != 0); index++) {
     const char chr = src[index];
     if (chr >= 'a' && chr <= 'z') {
-      res[index] = (char)(chr - 32);
+      dst[index] = (char)(chr - 32);
       continue;
     }
-    res[index] = chr;
+    dst[index] = chr;
   }
-  CE_FATAL(index <= size, "Index is greater than length of string!");
+  CE_ERROR(index <= size, "Index is greater than length of string!");
   CE_WARN(index == size - 1, "String is less than length given!");
-  res[index] = 0;
-  return res;
+  dst[index] = 0;
+  return dst;
 }
 
 typedef struct {
@@ -51,17 +49,20 @@ int main(void) {
   fat_str strs[4] = {(fat_str){"Hello.", 7}, (fat_str){"123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*", 55},
                      (fat_str){"qwertyuiopasdfghjklzxcvbnm", 27}, (fat_str){"POIUYTREWQLKJHGFDSAMNBVCXZ", 27}};
 
-  CE_ERROR(strcmp("HELLO.", malloc_all_caps(strs[0].data, strs[0].size)) == 0, "Not equal!");
-  CE_ERROR(
-    strcmp("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*", malloc_all_caps(strs[1].data, strs[1].size)) == 0,
-    "Not equal!");
-  CE_ERROR(strcmp("QWERTYUIOPASDFGHJKLZXCVBNM", malloc_all_caps(strs[2].data, strs[2].size)) == 0, "Not equal!");
-  CE_ERROR(strcmp("POIUYTREWQLKJHGFDSAMNBVCXZ", malloc_all_caps(strs[3].data, strs[3].size)) == 0, "Not equal!");
-  CE_ERROR(strcmp("TEST", malloc_all_caps("Testing", 5)) == 0, "Not equal!");
-  CE_ERROR(malloc_all_caps(NULL, 1) == NULL, "Not null!");
-  CE_ERROR(malloc_all_caps("A", 0) == NULL, "Not null!");
-  CE_ERROR(malloc_all_caps("", 1) == NULL, "Not null!");
-  puts("There should be 3 warnings above. If not, something is wrong.");
+  char buf[60];
+
+  CE_ERROR(strcmp("HELLO.", malloc_all_caps(buf, strs[0].data, strs[0].size)) == 0, "Not equal!");
+  CE_ERROR(strcmp("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*",
+                  malloc_all_caps(buf, strs[1].data, strs[1].size)) == 0,
+           "Not equal!");
+  CE_ERROR(strcmp("QWERTYUIOPASDFGHJKLZXCVBNM", malloc_all_caps(buf, strs[2].data, strs[2].size)) == 0, "Not equal!");
+  CE_ERROR(strcmp("POIUYTREWQLKJHGFDSAMNBVCXZ", malloc_all_caps(buf, strs[3].data, strs[3].size)) == 0, "Not equal!");
+  CE_ERROR(strcmp("TEST", malloc_all_caps(buf, "Testing", 5)) == 0, "Not equal!");
+  CE_FATAL(malloc_all_caps(buf, NULL, 1) == NULL, "Not null!");
+  CE_ERROR(malloc_all_caps(buf, "A", 0) == NULL, "Not null!");
+  CE_ERROR(malloc_all_caps(buf, "", 1) == NULL, "Not null!");
+  CE_ERROR(malloc_all_caps(NULL, "f", 1) == NULL, "Not null!");
+  puts("There should be 4 warnings above. If not, something is wrong.");
   CE_ERROR(0, "This should abort the program!");
   puts("If you see this message, assertion wasn't handled!");
   return 0;

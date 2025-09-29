@@ -17,7 +17,7 @@ static std::string malloc_all_caps(std::string const & src) {
   try {
     res.reserve(size);
   } catch (...) {
-    CE_WARN(false, "Couldn't malloc new string!");
+    CE_FATAL(false, "Couldn't malloc new string!");
     return res;
   }
 
