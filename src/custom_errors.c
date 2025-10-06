@@ -29,6 +29,27 @@ extern void ce_err_handler(unsigned char type, const char * msg, const char * fi
   abort();
 }
 
+#ifdef _WIN32
+
+  #include <windows.h>
+  extern unsigned long set_windows_colors(void) {
+    HANDLE con = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (con == INVALID_HANDLE_VALUE) {
+      return (unsigned long)GetLastError();
+    }
+    DWORD mode = 0;
+    if (!GetConsoleMode(con, &mode)) {
+      return (unsigned long)GetLastError();
+    }
+    mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    if (!SetConsoleMode(con, mode)) {
+      return (unsigned long)GetLastError();
+    }
+    return 0UL;
+  }
+
+#endif
+
 #ifdef __cplusplus
 }
 #endif

@@ -94,6 +94,10 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
   #define CE_WARN(expr, msg) ((expr) ? (void)0 : ce_warn_handler(msg, __FILE__, __func__, __LINE__, #expr))
 #endif
 
+#ifdef _WIN32
+  unsigned long set_windows_colors(void);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

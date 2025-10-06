@@ -37,6 +37,11 @@ static std::string malloc_all_caps(std::string const & src) {
 #include <iostream>
 
 int main() {
+#ifdef _WIN32
+  if (set_windows_colors() != 0) {
+    printf("Colored text output will not work on windows!\n");
+  }
+#endif
   constexpr long cpp_version = (
 #ifdef _WIN32
     _MSVC_LANG

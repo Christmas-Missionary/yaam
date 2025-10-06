@@ -43,6 +43,11 @@ typedef struct {
 } fat_str;
 
 int main(void) {
+#ifdef _WIN32
+  if (set_windows_colors() != 0) {
+    printf("Colored text output will not work on windows!\n");
+  }
+#endif
 #ifdef __STDC_VERSION__
   printf("C standard version: %ld\n", __STDC_VERSION__);
 #endif
