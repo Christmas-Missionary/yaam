@@ -31,50 +31,51 @@ if (!(test-path -path combo)) {
   mkdir combo
 }
 
-$set_of_defines = @{
-  0 = ""
-  1 = "/DNDEBUG"
-  2 = "/DCE_ASSUME_ALL"
-  3 = "/DCE_NO_WARN /DCE_ASSUME_WARN /DNDEBUG /DCE_ASSUME_ALL"
-  4 = "/DCE_NO_WARN"
-  5 = "/DCE_NO_ERROR"
-  6 = "/DCE_NO_FATAL"
-  7 = "/DCE_NO_WARN /DCE_NO_ERROR"
-  8 = "/DCE_NO_WARN /DCE_NO_FATAL"
-  9 = "/DCE_NO_ERROR /DCE_NO_FATAL"
-  10 = "/DCE_NO_WARN /DCE_NO_ERROR /DCE_NO_FATAL"
-  11 = "/DCE_ASSUME_WARN"
-  12 = "/DCE_ASSUME_ERROR"
-  13 = "/DDCE_ASSUME_FATAL"
-  14 = "/DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
-  15 = "/DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
-  16 = "/DCE_ASSUME_ERROR /DCE_ASSUME_FATAL"
-  17 = "/DCE_ASSUME_WARN /DCE_ASSUME_ERROR /DCE_ASSUME_FATAL"
-  18 = "/DCE_NO_WARN /DCE_ASSUME_ERROR"
-  19 = "/DCE_NO_WARN /DCE_ASSUME_FATAL"
-  20 = "/DCE_NO_WARN /DCE_ASSUME_ERROR /DCE_ASSUME_FATAL"
-  21 = "/DCE_NO_ERROR /DCE_ASSUME_WARN"
-  22 = "/DCE_NO_ERROR /DCE_ASSUME_FATAL"
-  23 = "/DCE_NO_ERROR /DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
-  24 = "/DCE_NO_FATAL /DCE_ASSUME_ERROR"
-  25 = "/DCE_NO_FATAL /DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
-  26 = "/DCE_NO_FATAL /DCE_ASSUME_WARN"
-}
-
 function see_assembly {
 
   param(
     [ValidatePattern('[a-z].asm')][string]$to_be,
     [ValidateSet("assume", "basic", "combo", "no")][string]$at,
-    [ValidateRange(0, 26)][int]$with_define_entry
+    [string]$with_defines
   )
 
-  cl /O2 /FA assume_test.cpp set_of_defines.$with_define_entry
+  cl /O2 /FA assume_test.cpp $with_defines
   rename-item -path assume_test.asm -newname $to_be
   move-item -path $to_be -destination $at
 
 }
 
-# for ($i = 0; $i -le 26; $i++) {
-#   see_assembly -to_be none.asm -at basic -with_define_entry $i
-# }
+see_assembly -to_be none.asm -at basic -with_defines ""
+see_assembly -to_be ndebug.asm -at basic -with_defines "/DNDEBUG"
+see_assembly -to_be assume.asm -at basic -with_defines "/DCE_ASSUME_ALL"
+see_assembly -to_be jumbo.asm -at basic -with_defines "/DCE_NO_WARN /DCE_ASSUME_WARN /DNDEBUG /DCE_ASSUME_ALL"
+
+see_assembly -to_be now.asm -at no -with_defines "/DCE_NO_WARN"
+see_assembly -to_be noe.asm -at no -with_defines "/DCE_NO_ERROR"
+see_assembly -to_be nof.asm -at no -with_defines "/DCE_NO_FATAL"
+see_assembly -to_be nowe.asm -at no -with_defines "/DCE_NO_WARN /DCE_NO_ERROR"
+see_assembly -to_be nowf.asm -at no -with_defines "/DCE_NO_WARN /DCE_NO_FATAL"
+see_assembly -to_be noef.asm -at no -with_defines "/DCE_NO_ERROR /DCE_NO_FATAL"
+see_assembly -to_be nowef.asm -at no -with_defines "/DCE_NO_WARN /DCE_NO_ERROR /DCE_NO_FATAL"
+
+see_assembly -to_be asw.asm -at assume -with_defines "/DCE_ASSUME_WARN"
+see_assembly -to_be ase.asm -at assume -with_defines "/DCE_ASSUME_ERR0R"
+see_assembly -to_be asf.asm -at assume -with_defines "/DCE_ASSUME_FATAL"
+see_assembly -to_be aswe.asm -at assume -with_defines "/DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
+see_assembly -to_be aswf.asm -at assume -with_defines "/DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
+see_assembly -to_be asef.asm -at assume -with_defines "/DCE_ASSUME_ERROR /DCE_ASSUME_FATAL"
+see_assembly -to_be aswef.asm -at assume -with_defines "/DCE_ASSUME_WARN /DCE_ASSUME_ERROR /DCE_ASSUME_FATAL"
+
+see_assembly -to_be nwae.asm -at combo -with_defines "/DCE_NO_WARN /DCE_ASSUME_ERROR"
+see_assembly -to_be nwaf.asm -at combo -with_defines "/DCE_NO_WARN /DCE_ASSUME_FATAL"
+see_assembly -to_be nwaef.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
+see_assembly -to_be neaw.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_WARN"
+see_assembly -to_be neaf.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_FATAL"
+see_assembly -to_be neawf.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
+see_assembly -to_be nfae.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_ERROR"
+see_assembly -to_be nfaw.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
+see_assembly -to_be nfawe.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN"
+
+rm assume_test.obj
+rm custom_errors.obj
+rm test.obj
