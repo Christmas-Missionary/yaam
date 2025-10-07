@@ -7,9 +7,9 @@ static_assert(sizeof(char) == 1, "God has left us!");
 
 #define MAX_ITER 1000
 
-// src - source string to convert, size - length of string + null byte
+// src - destination buffer, source string to convert, size -> ptr to destination buffer or NULL if failed
 // Example: ("Cats", 5) -> "CATS"
-static char * malloc_all_caps(char * restrict dst, const char * src, const size_t size) {
+static char * all_caps(char * restrict dst, const char * src, const size_t size) {
   CE_WARN(dst != NULL, "No string at all to return!");
   CE_WARN(src != NULL, "No string at all to convert!");
   CE_WARN(size != 0, "No size for the string!");
@@ -56,17 +56,17 @@ int main(void) {
 
   char buf[60];
 
-  CE_ERROR(strcmp("HELLO.", malloc_all_caps(buf, strs[0].data, strs[0].size)) == 0, "Not equal!");
-  CE_ERROR(strcmp("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*",
-                  malloc_all_caps(buf, strs[1].data, strs[1].size)) == 0,
-           "Not equal!");
-  CE_ERROR(strcmp("QWERTYUIOPASDFGHJKLZXCVBNM", malloc_all_caps(buf, strs[2].data, strs[2].size)) == 0, "Not equal!");
-  CE_ERROR(strcmp("POIUYTREWQLKJHGFDSAMNBVCXZ", malloc_all_caps(buf, strs[3].data, strs[3].size)) == 0, "Not equal!");
-  CE_ERROR(strcmp("TEST", malloc_all_caps(buf, "Testing", 5)) == 0, "Not equal!");
-  CE_FATAL(malloc_all_caps(buf, NULL, 1) == NULL, "Not null!");
-  CE_ERROR(malloc_all_caps(buf, "A", 0) == NULL, "Not null!");
-  CE_ERROR(malloc_all_caps(buf, "", 1) == NULL, "Not null!");
-  CE_ERROR(malloc_all_caps(NULL, "f", 1) == NULL, "Not null!");
+  CE_ERROR(strcmp("HELLO.", all_caps(buf, strs[0].data, strs[0].size)) == 0, "Not equal!");
+  CE_ERROR(
+    strcmp("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*", all_caps(buf, strs[1].data, strs[1].size)) == 0,
+    "Not equal!");
+  CE_ERROR(strcmp("QWERTYUIOPASDFGHJKLZXCVBNM", all_caps(buf, strs[2].data, strs[2].size)) == 0, "Not equal!");
+  CE_ERROR(strcmp("POIUYTREWQLKJHGFDSAMNBVCXZ", all_caps(buf, strs[3].data, strs[3].size)) == 0, "Not equal!");
+  CE_ERROR(strcmp("TEST", all_caps(buf, "Testing", 5)) == 0, "Not equal!");
+  CE_FATAL(all_caps(buf, NULL, 1) == NULL, "Not null!");
+  CE_ERROR(all_caps(buf, "A", 0) == NULL, "Not null!");
+  CE_ERROR(all_caps(buf, "", 1) == NULL, "Not null!");
+  CE_ERROR(all_caps(NULL, "f", 1) == NULL, "Not null!");
   puts("There should be 4 warnings above. If not, something is wrong.");
   CE_ERROR(0, "This should abort the program!");
   puts("If you see this message, assertion wasn't handled!");

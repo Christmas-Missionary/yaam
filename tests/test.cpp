@@ -5,8 +5,9 @@
 
 static_assert(sizeof(char) == 1, "God has left us!");
 
-// src - reference of source string
-static std::string malloc_all_caps(std::string const & src) {
+// src - reference of source string -> new string on heap or a default init if failed
+// Example: ("Cats", 5) -> "CATS"
+static std::string all_caps(std::string const & src) {
   std::string res{};
   const std::string::size_type size = src.size();
   CE_WARN(size != 0, "No size for the string!");
@@ -54,11 +55,11 @@ int main() {
   const std::array<std::string, 4> strs = {"Hello.", "123456789({[|]})`~QAZqazwebWEBJILLjill<>,.:;/?!@#$%^&*",
                                            "qwertyuiopasdfghjklzxcvbnm", "POIUYTREWQLKJHGFDSAMNBVCXZ"};
 
-  CE_ERROR("HELLO." == malloc_all_caps(strs[0]), "Not equal!");
-  CE_ERROR("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*" == malloc_all_caps(strs[1]), "Not equal!");
-  CE_ERROR("QWERTYUIOPASDFGHJKLZXCVBNM" == malloc_all_caps(strs[2]), "Not equal!");
-  CE_ERROR("POIUYTREWQLKJHGFDSAMNBVCXZ" == malloc_all_caps(strs[3]), "Not equal!");
-  CE_ERROR(std::string{} == malloc_all_caps(""), "Not empty!");
+  CE_ERROR("HELLO." == all_caps(strs[0]), "Not equal!");
+  CE_ERROR("123456789({[|]})`~QAZQAZWEBWEBJILLJILL<>,.:;/?!@#$%^&*" == all_caps(strs[1]), "Not equal!");
+  CE_ERROR("QWERTYUIOPASDFGHJKLZXCVBNM" == all_caps(strs[2]), "Not equal!");
+  CE_ERROR("POIUYTREWQLKJHGFDSAMNBVCXZ" == all_caps(strs[3]), "Not equal!");
+  CE_ERROR(std::string{} == all_caps(""), "Not empty!");
 
   std::cout << "There should be 1 warning above. If not, something is wrong.\n";
 
