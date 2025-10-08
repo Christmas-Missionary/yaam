@@ -39,8 +39,8 @@ function see_assembly {
     [string]$with_defines
   )
 
-  cl /O2 /FA assume_test.cpp $with_defines
-  rename-item -path assume_test.asm -newname $to_be
+  cl /O2 /FA macro_test.cpp $with_defines
+  rename-item -path macro_test.asm -newname $to_be
   move-item -path $to_be -destination $at
 
 }
@@ -76,6 +76,6 @@ see_assembly -to_be nfae.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_
 see_assembly -to_be nfaw.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
 see_assembly -to_be nfawe.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN"
 
-rm assume_test.obj
+rm macro_test.obj
 rm custom_errors.obj
 rm test.obj
