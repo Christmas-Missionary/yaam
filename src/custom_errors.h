@@ -95,7 +95,7 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 #endif
 
 #ifdef _WIN32
-  unsigned long set_windows_colors(void);
+unsigned long set_windows_colors(void);
 #endif
 
 #ifdef __cplusplus
