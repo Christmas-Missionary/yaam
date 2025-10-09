@@ -30,6 +30,8 @@ If your compiler supports the "assume" extension, you can use:
 > CE_ASSUME_WARN, CE_ASSUME_ERROR, CE_ASSUME_FATAL  
 For no mercy, you may use CE_ASSUME_ALL.  
 
+Keep in mind that `CE_ASSUME_ALL` overrides `NDEBUG`, but `CE_NO_WARN`, `CE_NO_ERROR`, and `CE_NO_FATAL` override   `CE_ASSUME_WARN`, `CE_ASSUME_ERROR`, `CE_ASSUME_FATAL`. `CE_ASSUME_ALL` overrides `NDEBUG` so that `NDEBUG` doesn't need to be removed when configuring the build type to "Release" in build-programs such as CMake.
+
 `CE_NO_RET` is a convenience macro to wrap `[[noreturn]]` and `_Noreturn`. This is useful to prevent a static analyzer such as `-fanalyzer` for gcc from emitting false positives in a code base littered with assertions/error handlers. Only `custom_errors.c` needs this.  
 If you want to use it, you may use `#define CE_INCLUDE_NORET` before `#include "path/to/custom_errors.h"`
 

@@ -19,59 +19,67 @@
   #define CE_NO_RET
 #endif
 
-#if defined(CE_NO_WARN) || defined(NDEBUG)
+#if defined(NDEBUG) && !defined(CE_ASSUME_ALL)
   #define CE_WARN(expr, msg)
-#elif defined(CE_ASSUME_WARN) || defined(CE_ASSUME_ALL)
-
-  #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
-    #define CE_WARN(expr, msg) [[assume(expr)]]
-  #elif defined(_MSC_VER) // #if Not C++23
-    #define CE_WARN(expr, msg) __assume(expr)
-  #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
-    #define CE_WARN(expr, msg) __builtin_assume(expr)
-  #elif defined(__GNUC__) // Not Clang, but GCC
-    #define CE_WARN(expr, msg) __attribute__((assume(expr)))
-  #else // None of the above
-    #define CE_WARN(expr, msg)
-  #endif // #ifdef CE_ASSUME
-
-#endif // CE_ASSUME_WARN or CE_ASSUME_ALL
-
-#if defined(CE_NO_ERROR) || defined(NDEBUG)
   #define CE_ERROR(expr, msg)
-#elif defined(CE_ASSUME_ERROR) || defined(CE_ASSUME_ALL)
-
-  #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
-    #define CE_ERROR(expr, msg) [[assume(expr)]]
-  #elif defined(_MSC_VER) // #if Not C++23
-    #define CE_ERROR(expr, msg) __assume(expr)
-  #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
-    #define CE_ERROR(expr, msg) __builtin_assume(expr)
-  #elif defined(__GNUC__) // Not Clang, but GCC
-    #define CE_ERROR(expr, msg) __attribute__((assume(expr)))
-  #else // None of the above
-    #define CE_ERROR(expr, msg)
-  #endif // #ifdef CE_ASSUME
-
-#endif // CE_ASSUME_ERROR or CE_ASSUME_ALL
-
-#if defined(CE_NO_FATAL) || defined(NDEBUG)
   #define CE_FATAL(expr, msg)
-#elif defined(CE_ASSUME_FATAL) || defined(CE_ASSUME_ALL)
+#else // if no NDEBUG
 
-  #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
-    #define CE_FATAL(expr, msg) [[assume(expr)]]
-  #elif defined(_MSC_VER) // #if Not C++23
-    #define CE_FATAL(expr, msg) __assume(expr)
-  #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
-    #define CE_FATAL(expr, msg) __builtin_assume(expr)
-  #elif defined(__GNUC__) // Not Clang, but GCC
-    #define CE_FATAL(expr, msg) __attribute__((assume(expr)))
-  #else // None of the above
+  #if defined(CE_NO_WARN)
+    #define CE_WARN(expr, msg)
+  #elif defined(CE_ASSUME_WARN) || defined(CE_ASSUME_ALL)
+
+    #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
+      #define CE_WARN(expr, msg) [[assume(expr)]]
+    #elif defined(_MSC_VER) // #if Not C++23
+      #define CE_WARN(expr, msg) __assume(expr)
+    #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+      #define CE_WARN(expr, msg) __builtin_assume(expr)
+    #elif defined(__GNUC__) // Not Clang, but GCC
+      #define CE_WARN(expr, msg) __attribute__((assume(expr)))
+    #else // None of the above
+      #define CE_WARN(expr, msg)
+    #endif // #ifdef CE_ASSUME
+
+  #endif // CE_ASSUME_WARN or CE_ASSUME_ALL
+
+  #if defined(CE_NO_ERROR)
+    #define CE_ERROR(expr, msg)
+  #elif defined(CE_ASSUME_ERROR) || defined(CE_ASSUME_ALL)
+
+    #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
+      #define CE_ERROR(expr, msg) [[assume(expr)]]
+    #elif defined(_MSC_VER) // #if Not C++23
+      #define CE_ERROR(expr, msg) __assume(expr)
+    #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+      #define CE_ERROR(expr, msg) __builtin_assume(expr)
+    #elif defined(__GNUC__) // Not Clang, but GCC
+      #define CE_ERROR(expr, msg) __attribute__((assume(expr)))
+    #else // None of the above
+      #define CE_ERROR(expr, msg)
+    #endif // #ifdef CE_ASSUME
+
+  #endif // CE_ASSUME_ERROR or CE_ASSUME_ALL
+
+  #if defined(CE_NO_FATAL)
     #define CE_FATAL(expr, msg)
-  #endif // #ifdef CE_ASSUME
+  #elif defined(CE_ASSUME_FATAL) || defined(CE_ASSUME_ALL)
 
-#endif // CE_ASSUME_FATAL or CE_ASSUME_ALL
+    #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
+      #define CE_FATAL(expr, msg) [[assume(expr)]]
+    #elif defined(_MSC_VER) // #if Not C++23
+      #define CE_FATAL(expr, msg) __assume(expr)
+    #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+      #define CE_FATAL(expr, msg) __builtin_assume(expr)
+    #elif defined(__GNUC__) // Not Clang, but GCC
+      #define CE_FATAL(expr, msg) __attribute__((assume(expr)))
+    #else // None of the above
+      #define CE_FATAL(expr, msg)
+    #endif // #ifdef CE_ASSUME
+
+  #endif // CE_ASSUME_FATAL or CE_ASSUME_ALL
+
+#endif // if no NDEBUG
 
 #ifdef __cplusplus
 extern "C" {
