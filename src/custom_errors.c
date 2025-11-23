@@ -17,12 +17,12 @@ extern "C" {
   #include <stdlib.h>
 #endif
 
-extern void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * expr) {
+void ce_warn_handler(const char * msg, const char * file, const char * fnc, int line, const char * expr) {
   (void)printf(ERR_STR, "\33[38;5;226mWarning!\33[0m", file, fnc, line, msg, expr);
 }
 
 CE_NO_RET
-extern void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
+void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
                            const char * expr) {
   (void)printf(ERR_STR, (type) ? "\33[38;5;196mFatal Error!\33[0m" : "\33[38;5;208mError!\33[0m", file, fnc, line, msg,
                expr);
@@ -33,7 +33,7 @@ extern void ce_err_handler(unsigned char type, const char * msg, const char * fi
 #ifdef _WIN32
 
   #include <windows.h>
-extern unsigned long set_windows_colors(void) {
+unsigned long set_windows_colors(void) {
   HANDLE con = GetStdHandle(STD_OUTPUT_HANDLE);
   if (con == INVALID_HANDLE_VALUE) {
     return (unsigned long)GetLastError();
