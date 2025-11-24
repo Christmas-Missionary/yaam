@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+
 if [ ${PWD##*/} = "custom-errors" ]; then
   cd tests
 elif [ ${PWD##*/} != "tests" ]; then

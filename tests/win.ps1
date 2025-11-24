@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+
 & {
   $curr_folder = Split-Path -Path $pwd -Leaf
   if ($curr_folder -eq "custom-errors") {

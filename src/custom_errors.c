@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+
 #define CE_INCLUDE_NORET
 #include "custom_errors.h"
 
@@ -23,7 +25,7 @@ void ce_warn_handler(const char * msg, const char * file, const char * fnc, int 
 
 CE_NO_RET
 void ce_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
-                           const char * expr) {
+                    const char * expr) {
   (void)printf(ERR_STR, (type) ? "\33[38;5;196mFatal Error!\33[0m" : "\33[38;5;208mError!\33[0m", file, fnc, line, msg,
                expr);
   (void)printf("\33[38;5;196mAborting Now!\33[0m\n");

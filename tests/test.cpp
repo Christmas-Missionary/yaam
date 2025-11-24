@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+
 #define _LIBCPP_REMOVE_TRANSITIVE_INCLUDES
 
 #include "../src/custom_errors.h"

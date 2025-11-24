@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+
 #ifndef CE_CUSTOM_ERRORS
 #define CE_CUSTOM_ERRORS
 

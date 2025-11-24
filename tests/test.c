@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+
 #include "../src/custom_errors.h"
 #include <stdio.h>
 #include <stdlib.h>
