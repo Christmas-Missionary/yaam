@@ -22,13 +22,13 @@
 #endif
 
 #if defined(CE_NONE)
-  #define CE_WARN(expr, msg)
-  #define CE_ERROR(expr, msg)
-  #define CE_FATAL(expr, msg)
+  #define CE_WARN(expr, msg) ((void)0)
+  #define CE_ERROR(expr, msg) ((void)0)
+  #define CE_FATAL(expr, msg) ((void)0)
 #else // if no CE_NONE
 
   #if defined(CE_NO_WARN)
-    #define CE_WARN(expr, msg)
+    #define CE_WARN(expr, msg) ((void)0)
   #elif defined(CE_ASSUME_WARN) || defined(CE_ASSUME_ALL)
 
     #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
@@ -40,13 +40,13 @@
     #elif defined(__GNUC__) // Not Clang, but GCC
       #define CE_WARN(expr, msg) __attribute__((assume(expr)))
     #else // None of the above
-      #define CE_WARN(expr, msg)
+      #define CE_WARN(expr, msg) ((void)0)
     #endif // #ifdef CE_ASSUME
 
   #endif // CE_ASSUME_WARN or CE_ASSUME_ALL
 
   #if defined(CE_NO_ERROR)
-    #define CE_ERROR(expr, msg)
+    #define CE_ERROR(expr, msg) ((void)0)
   #elif defined(CE_ASSUME_ERROR) || defined(CE_ASSUME_ALL)
 
     #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
@@ -58,13 +58,13 @@
     #elif defined(__GNUC__) // Not Clang, but GCC
       #define CE_ERROR(expr, msg) __attribute__((assume(expr)))
     #else // None of the above
-      #define CE_ERROR(expr, msg)
+      #define CE_ERROR(expr, msg) ((void)0)
     #endif // #ifdef CE_ASSUME
 
   #endif // CE_ASSUME_ERROR or CE_ASSUME_ALL
 
   #if defined(CE_NO_FATAL)
-    #define CE_FATAL(expr, msg)
+    #define CE_FATAL(expr, msg) ((void)0)
   #elif defined(CE_ASSUME_FATAL) || defined(CE_ASSUME_ALL)
 
     #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
@@ -76,7 +76,7 @@
     #elif defined(__GNUC__) // Not Clang, but GCC
       #define CE_FATAL(expr, msg) __attribute__((assume(expr)))
     #else // None of the above
-      #define CE_FATAL(expr, msg)
+      #define CE_FATAL(expr, msg) ((void)0)
     #endif // #ifdef CE_ASSUME
 
   #endif // CE_ASSUME_FATAL or CE_ASSUME_ALL
