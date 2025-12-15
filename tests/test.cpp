@@ -40,11 +40,10 @@ static std::string all_caps(std::string const & src) {
 #include <iostream>
 
 int main() {
-#ifdef _WIN32
-  if (set_windows_colors() != 0) {
-    printf("Colored text output will not work on windows!\n");
+  unsigned long err = set_windows_colors();
+  if (err != 0 && err != NOT_ON_WINDOWS) {
+    puts("Colored text output will not work on windows!");
   }
-#endif
   constexpr long cpp_version = (
 #ifdef _WIN32
     _MSVC_LANG

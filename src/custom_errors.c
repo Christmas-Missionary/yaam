@@ -38,10 +38,7 @@ void ce_err_handler(unsigned char type, const char * msg, const char * file, con
 unsigned long set_windows_colors(void) {
   DWORD mode = 0;
   HANDLE con = GetStdHandle(STD_OUTPUT_HANDLE);
-  if (con == INVALID_HANDLE_VALUE) {
-    return (unsigned long)(GetLastError());
-  }
-  if (!GetConsoleMode(con, &mode)) {
+  if (con == INVALID_HANDLE_VALUE || !GetConsoleMode(con, &mode)) {
     return (unsigned long)(GetLastError());
   }
   mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
