@@ -3,20 +3,19 @@
 #ifndef CE_CUSTOM_ERRORS
 #define CE_CUSTOM_ERRORS
 
+// `CE_NO_RET` helps static analyzers determine if code is reachable.
+// If it isn't, there are less false positives.
 #ifdef __cplusplus
-  #define CE_NO_RET [[noreturn]]
-#endif
-
-#if defined(__STDC_VERSION__) && !defined(CE_NO_RET)
+  #if (defined(_MSC_VER) && _MSVC_LANG >= 201103L) || (__cplusplus >= 201103L)
+    #define CE_NO_RET [[noreturn]]
+  #endif
+#elif defined(__STDC_VERSION__)
   #if __STDC_VERSION__ >= 202311L
     #define CE_NO_RET [[noreturn]]
   #elif __STDC_VERSION__ >= 201112L
     #define CE_NO_RET _Noreturn
   #endif
-#endif // defined(__STDC_VERSION__) && !defined(CE_NO_RET)
-
-// `CE_NO_RET` helps static analyzers determine if code is reachable.
-// If it isn't, there are less false positives.
+#endif
 #ifndef CE_NO_RET
   #define CE_NO_RET
 #endif
