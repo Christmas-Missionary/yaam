@@ -36,17 +36,17 @@ void ce_err_handler(unsigned char type, const char * msg, const char * file, con
 
   #include <windows.h>
 unsigned long set_windows_colors(void) {
+  DWORD mode = 0;
   HANDLE con = GetStdHandle(STD_OUTPUT_HANDLE);
   if (con == INVALID_HANDLE_VALUE) {
-    return (unsigned long)GetLastError();
+    return (unsigned long)(GetLastError());
   }
-  DWORD mode = 0;
   if (!GetConsoleMode(con, &mode)) {
-    return (unsigned long)GetLastError();
+    return (unsigned long)(GetLastError());
   }
   mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
   if (!SetConsoleMode(con, mode)) {
-    return (unsigned long)GetLastError();
+    return (unsigned long)(GetLastError());
   }
   return 0UL;
 }

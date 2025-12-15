@@ -47,10 +47,10 @@ function see_assembly {
 
 }
 
-see_assembly -to_be none.asm -at basic -with_defines ""
-see_assembly -to_be ndebug.asm -at basic -with_defines "/DNDEBUG"
+see_assembly -to_be nodefs.asm -at basic -with_defines ""
+see_assembly -to_be none.asm -at basic -with_defines "/DCE_NONE"
 see_assembly -to_be assume.asm -at basic -with_defines "/DCE_ASSUME_ALL"
-see_assembly -to_be jumbo.asm -at basic -with_defines "/DCE_NO_WARN /DCE_ASSUME_WARN /DNDEBUG /DCE_ASSUME_ALL"
+see_assembly -to_be jumbo.asm -at basic -with_defines "/DCE_NO_WARN /DCE_ASSUME_WARN /DCE_NONE /DCE_ASSUME_ALL"
 
 see_assembly -to_be now.asm -at no -with_defines "/DCE_NO_WARN"
 see_assembly -to_be noe.asm -at no -with_defines "/DCE_NO_ERROR"

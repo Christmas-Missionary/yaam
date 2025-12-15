@@ -21,11 +21,11 @@
   #define CE_NO_RET
 #endif
 
-#if defined(NDEBUG) && !defined(CE_ASSUME_ALL)
+#if defined(CE_NONE)
   #define CE_WARN(expr, msg)
   #define CE_ERROR(expr, msg)
   #define CE_FATAL(expr, msg)
-#else // if no NDEBUG
+#else // if no CE_NONE
 
   #if defined(CE_NO_WARN)
     #define CE_WARN(expr, msg)
@@ -81,7 +81,7 @@
 
   #endif // CE_ASSUME_FATAL or CE_ASSUME_ALL
 
-#endif // if no NDEBUG
+#endif // if no CE_NONE
 
 #ifdef __cplusplus
 extern "C" {

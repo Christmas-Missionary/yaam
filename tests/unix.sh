@@ -32,10 +32,10 @@ if [ ! -d "combo" ]; then
   mkdir combo
 fi
 
-g++ macro_test.cpp -S -o basic/none.s -O3
-g++ macro_test.cpp -S -o basic/ndebug.s -DNDEBUG -O3
+g++ macro_test.cpp -S -o basic/nodefs.s -O3
+g++ macro_test.cpp -S -o basic/none.s -DCE_NONE -O3
 g++ macro_test.cpp -S -o basic/assume.s -DCE_ASSUME_ALL -O3
-g++ macro_test.cpp -S -o basic/jumbo.s -DCE_NO_WARN -DCE_ASSUME_WARN -DNDEBUG -DCE_ASSUME_ALL -O3
+g++ macro_test.cpp -S -o basic/jumbo.s -DCE_NO_WARN -DCE_ASSUME_WARN -DCE_NONE -DCE_ASSUME_ALL -O3
 
 g++ macro_test.cpp -S -o no/now.s -DCE_NO_WARN -O3
 g++ macro_test.cpp -S -o no/noe.s -DCE_NO_ERROR -O3
