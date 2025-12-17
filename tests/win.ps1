@@ -14,11 +14,11 @@ if (!(test-path -path exe)) {
   mkdir exe
 }
 
-cl /Od /Wall ../src/custom_errors.c test.c /Fe: exe/c_test /std:c17
-cl /Od /Wall /EHsc ../src/custom_errors.c test.cpp /Fe: exe/cpp_test /std:c++20
+cl /Od /Wall ../src/custom_errors.c main.c /Fe: exe/reg_test /std:c11 /DREG_ERROR_TEST
+cl /Od /Wall /EHsc ../src/custom_errors.c main.c /Fe: exe/fatal_test /std:c11 /DFATAL_ERROR_TEST
 
-./exe/c_test
-./exe/cpp_test
+./exe/reg_test
+./exe/fatal_test
 
 if (!(test-path -path basic)) {
   mkdir basic
@@ -41,8 +41,8 @@ function see_assembly {
     [string]$with_defines
   )
 
-  cl /O2 /FA macro_test.cpp $with_defines
-  rename-item -path macro_test.asm -newname $to_be
+  cl /O2 /FA main.c $with_defines
+  rename-item -path main.asm -newname $to_be
   move-item -path $to_be -destination $at
 
 }
@@ -78,6 +78,5 @@ see_assembly -to_be nfae.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_
 see_assembly -to_be nfaw.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
 see_assembly -to_be nfawe.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN"
 
-rm macro_test.obj
+rm main.obj
 rm custom_errors.obj
-rm test.obj
