@@ -11,8 +11,8 @@ if (!(test-path -path exe)) {
   mkdir exe
 }
 
-cl /Od /Wall ../src/custom_errors.c main.c /Fe: exe/reg_test /std:c11 /DREG_ERROR_TEST
-cl /Od /Wall /EHsc ../src/custom_errors.c main.c /Fe: exe/fatal_test /std:c11 /DFATAL_ERROR_TEST
+cl /Od /Wall ../src/yaam.c main.c /Fe: exe/reg_test /std:c11 /DREG_ERROR_TEST
+cl /Od /Wall /EHsc ../src/yaam.c main.c /Fe: exe/fatal_test /std:c11 /DFATAL_ERROR_TEST
 
 ./exe/reg_test
 ./exe/fatal_test
@@ -45,35 +45,35 @@ function see_assembly {
 }
 
 see_assembly -to_be nodefs.asm -at basic -with_defines ""
-see_assembly -to_be none.asm -at basic -with_defines "/DCE_NONE"
-see_assembly -to_be assume.asm -at basic -with_defines "/DCE_ASSUME_ALL"
-see_assembly -to_be jumbo.asm -at basic -with_defines "/DCE_NO_WARN /DCE_ASSUME_WARN /DCE_NONE /DCE_ASSUME_ALL"
+see_assembly -to_be none.asm -at basic -with_defines "/DYAAM_NONE"
+see_assembly -to_be assume.asm -at basic -with_defines "/DYAAM_ASSUME_ALL"
+see_assembly -to_be jumbo.asm -at basic -with_defines "/DYAAM_NO_WARN /DYAAM_ASSUME_WARN /DYAAM_NONE /DYAAM_ASSUME_ALL"
 
-see_assembly -to_be now.asm -at no -with_defines "/DCE_NO_WARN"
-see_assembly -to_be noe.asm -at no -with_defines "/DCE_NO_ERROR"
-see_assembly -to_be nof.asm -at no -with_defines "/DCE_NO_FATAL"
-see_assembly -to_be nowe.asm -at no -with_defines "/DCE_NO_WARN /DCE_NO_ERROR"
-see_assembly -to_be nowf.asm -at no -with_defines "/DCE_NO_WARN /DCE_NO_FATAL"
-see_assembly -to_be noef.asm -at no -with_defines "/DCE_NO_ERROR /DCE_NO_FATAL"
-see_assembly -to_be nowef.asm -at no -with_defines "/DCE_NO_WARN /DCE_NO_ERROR /DCE_NO_FATAL"
+see_assembly -to_be now.asm -at no -with_defines "/DYAAM_NO_WARN"
+see_assembly -to_be noe.asm -at no -with_defines "/DYAAM_NO_ERROR"
+see_assembly -to_be nof.asm -at no -with_defines "/DYAAM_NO_FATAL"
+see_assembly -to_be nowe.asm -at no -with_defines "/DYAAM_NO_WARN /DYAAM_NO_ERROR"
+see_assembly -to_be nowf.asm -at no -with_defines "/DYAAM_NO_WARN /DYAAM_NO_FATAL"
+see_assembly -to_be noef.asm -at no -with_defines "/DYAAM_NO_ERROR /DYAAM_NO_FATAL"
+see_assembly -to_be nowef.asm -at no -with_defines "/DYAAM_NO_WARN /DYAAM_NO_ERROR /DYAAM_NO_FATAL"
 
-see_assembly -to_be asw.asm -at assume -with_defines "/DCE_ASSUME_WARN"
-see_assembly -to_be ase.asm -at assume -with_defines "/DCE_ASSUME_ERR0R"
-see_assembly -to_be asf.asm -at assume -with_defines "/DCE_ASSUME_FATAL"
-see_assembly -to_be aswe.asm -at assume -with_defines "/DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
-see_assembly -to_be aswf.asm -at assume -with_defines "/DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
-see_assembly -to_be asef.asm -at assume -with_defines "/DCE_ASSUME_ERROR /DCE_ASSUME_FATAL"
-see_assembly -to_be aswef.asm -at assume -with_defines "/DCE_ASSUME_WARN /DCE_ASSUME_ERROR /DCE_ASSUME_FATAL"
+see_assembly -to_be asw.asm -at assume -with_defines "/DYAAM_ASSUME_WARN"
+see_assembly -to_be ase.asm -at assume -with_defines "/DYAAM_ASSUME_ERR0R"
+see_assembly -to_be asf.asm -at assume -with_defines "/DYAAM_ASSUME_FATAL"
+see_assembly -to_be aswe.asm -at assume -with_defines "/DYAAM_ASSUME_WARN /DYAAM_ASSUME_ERROR"
+see_assembly -to_be aswf.asm -at assume -with_defines "/DYAAM_ASSUME_WARN /DYAAM_ASSUME_FATAL"
+see_assembly -to_be asef.asm -at assume -with_defines "/DYAAM_ASSUME_ERROR /DYAAM_ASSUME_FATAL"
+see_assembly -to_be aswef.asm -at assume -with_defines "/DYAAM_ASSUME_WARN /DYAAM_ASSUME_ERROR /DYAAM_ASSUME_FATAL"
 
-see_assembly -to_be nwae.asm -at combo -with_defines "/DCE_NO_WARN /DCE_ASSUME_ERROR"
-see_assembly -to_be nwaf.asm -at combo -with_defines "/DCE_NO_WARN /DCE_ASSUME_FATAL"
-see_assembly -to_be nwaef.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
-see_assembly -to_be neaw.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_WARN"
-see_assembly -to_be neaf.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_FATAL"
-see_assembly -to_be neawf.asm -at combo -with_defines "/DCE_NO_ERROR /DCE_ASSUME_WARN /DCE_ASSUME_FATAL"
-see_assembly -to_be nfae.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_ERROR"
-see_assembly -to_be nfaw.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN /DCE_ASSUME_ERROR"
-see_assembly -to_be nfawe.asm -at combo -with_defines "/DCE_NO_FATAL /DCE_ASSUME_WARN"
+see_assembly -to_be nwae.asm -at combo -with_defines "/DYAAM_NO_WARN /DYAAM_ASSUME_ERROR"
+see_assembly -to_be nwaf.asm -at combo -with_defines "/DYAAM_NO_WARN /DYAAM_ASSUME_FATAL"
+see_assembly -to_be nwaef.asm -at combo -with_defines "/DYAAM_NO_ERROR /DYAAM_ASSUME_WARN /DYAAM_ASSUME_FATAL"
+see_assembly -to_be neaw.asm -at combo -with_defines "/DYAAM_NO_ERROR /DYAAM_ASSUME_WARN"
+see_assembly -to_be neaf.asm -at combo -with_defines "/DYAAM_NO_ERROR /DYAAM_ASSUME_FATAL"
+see_assembly -to_be neawf.asm -at combo -with_defines "/DYAAM_NO_ERROR /DYAAM_ASSUME_WARN /DYAAM_ASSUME_FATAL"
+see_assembly -to_be nfae.asm -at combo -with_defines "/DYAAM_NO_FATAL /DYAAM_ASSUME_ERROR"
+see_assembly -to_be nfaw.asm -at combo -with_defines "/DYAAM_NO_FATAL /DYAAM_ASSUME_WARN /DYAAM_ASSUME_ERROR"
+see_assembly -to_be nfawe.asm -at combo -with_defines "/DYAAM_NO_FATAL /DYAAM_ASSUME_WARN"
 
 rm main.obj
-rm custom_errors.obj
+rm yaam.obj

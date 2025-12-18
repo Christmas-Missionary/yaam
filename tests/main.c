@@ -1,16 +1,16 @@
-#include "../src/custom_errors.h"
+#include "../src/yaam.h"
 
 int warn(int num) {
   int stuff = 0;
   int more_stuff = 0;
-  CE_WARN(num == 4, "Number is supposed to be 4!");
+  YAAM_WARN(num == 4, "Number is supposed to be 4!");
   stuff = (num + 4) * (num - 10) * (num - 5) / 2;
   more_stuff = stuff * 4 + (num / 3) + 20;
   return more_stuff + stuff - num;
 }
 
 long reg(int num) {
-  CE_ERROR(num == 1, "Number is supposed to be 1!");
+  YAAM_ERROR(num == 1, "Number is supposed to be 1!");
   switch (num) {
     case 1:
       return 10;
@@ -42,7 +42,7 @@ long reg(int num) {
 long fatal(const long * vals, unsigned long size) {
   long res = 0;
   unsigned long index = 0;
-  CE_FATAL(size == VALS_SIZE, "Size is not 3!");
+  YAAM_FATAL(size == VALS_SIZE, "Size is not 3!");
   for (; index < size; index++) {
     res += vals[index];
   }

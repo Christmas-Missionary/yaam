@@ -1,3 +1,11 @@
+![](yam.jpg)
+
+### Segment of a Chinese yam (D. polystachya)
+
+Source: https://commons.wikimedia.org/wiki/File:Dioscorea_polystachya_(batatas).jpg  
+No Author. File is considered to be in the Public Domain.
+
+
 # Why?
 
 I found the features in `assert.h` to be a little too bland and lackluster.  
@@ -5,7 +13,7 @@ I wanted a few more options as to which assertions are which, and a few fancy co
 
 # Usage  
 
-It is best to include `custom_errors.h` and `custom_errors.c` directly into your project. I have decided to use Bash and PowerShell as the simplest ways to build the tests.
+It is best to include `yaam.h` and `yaam.c` directly into your project. I have decided to use Bash and PowerShell as the simplest ways to build the tests.
 
 There are 3 kinds of "assertions" in this repo, the warning, the regular error, and the fatal error.  
 
@@ -23,18 +31,18 @@ The general examples above are my opinion on how to classify errors. The 3 kinds
 
 Each kind of error can stay, be wiped, or be assumed true by the compiler.  
 To remove each kind, use:  
-> CE_NO_WARN, CE_NO_ERROR, CE_NO_FATAL  
-You may use CE_NONE to remove all 3 kinds with one macro.  
+> YAAM_NO_WARN, YAAM_NO_ERROR, YAAM_NO_FATAL  
+You may use YAAM_NONE to remove all 3 kinds with one macro.  
 
 If your compiler supports the "assume" extension, you can use:  
-> CE_ASSUME_WARN, CE_ASSUME_ERROR, CE_ASSUME_FATAL  
-For no mercy, you may use CE_ASSUME_ALL.  
+> YAAM_ASSUME_WARN, YAAM_ASSUME_ERROR, YAAM_ASSUME_FATAL  
+For no mercy, you may use YAAM_ASSUME_ALL.  
 
-I choose CE_NONE over a standardized macro such as NDEBUG
-CE_NONE takes priority over CE_ASSUME_ALL.
+I choose YAAM_NONE over a standardized macro such as NDEBUG
+YAAM_NONE takes priority over YAAM_ASSUME_ALL.
 
-`CE_NO_RET` is a convenience macro to wrap `[[noreturn]]` and `_Noreturn`. This is useful to prevent a static analyzer such as `-fanalyzer` for GCC from emitting false positives in a codebase littered with assertions/error handlers. Only `custom_errors.c` needs this.  
-If you want to use it, you may use `#define CE_INCLUDE_NORET` before `#include "path/to/custom_errors.h"`
+`YAAM_NO_RET` is a convenience macro to wrap `[[noreturn]]` and `_Noreturn`. This is useful to prevent a static analyzer such as `-fanalyzer` for GCC from emitting false positives in a codebase littered with assertions/error handlers. Only `yaam.c` needs this.  
+If you want to use it, you may use `#define YAAM_INCLUDE_NORET` before `#include "path/to/yaam.h"`
 
 `static_assert` is also made available if your current C standard is before C23.
 
