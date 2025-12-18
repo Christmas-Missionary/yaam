@@ -40,15 +40,15 @@ If you want to use it, you may use `#define CE_INCLUDE_NORET` before `#include "
 
 # How to Build the Tests
 
-In the `tests` directory of custom-errors:  
+In the top directory:  
 
-  If on MacOS or a Linux distro, given a Bash or Zsh shell:  
+  If on MacOS or a Linux distro, given a Bash shell:  
 
-      `./unix.sh`  
+      ./unix.sh  
 
   If on Windows, given a PowerShell shell:  
 
-      `./win.ps1`  
+      ./win.ps1  
 
   
 # FAQ (No one has asked me these questions.)

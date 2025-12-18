@@ -1,14 +1,11 @@
 # Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
 
-& {
-  $curr_folder = Split-Path -Path $pwd -Leaf
-  if ($curr_folder -eq "custom-errors") {
-    cd tests
-  } elseif ($curr_folder -ne "tests") {
-    write-host "Please set the directory to 'tests'!"
-    exit
-  }
+if (!(test-path -path tests)) {
+  echo "Please go to the top directory of this repo!"
+  exit
 }
+
+cd tests
 
 if (!(test-path -path exe)) {
   mkdir exe

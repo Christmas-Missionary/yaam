@@ -2,12 +2,11 @@
 
 # Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
 
-if [ ${PWD##*/} = "custom-errors" ]; then
-  cd tests
-elif [ ${PWD##*/} != "tests" ]; then
-  echo "Please set the directory to 'tests'!"
+if [ ! -d "tests" ]; then
+  echo "Please go to the top directory of this repo!"
   exit
 fi
+cd tests
 
 if [ ! -d "exe" ]; then
   mkdir exe
