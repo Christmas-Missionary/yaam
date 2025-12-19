@@ -1,10 +1,12 @@
-// Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+/*
+Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+*/
 
 #ifndef YAM_TASTES_OKAY_I_GUESS
 #define YAM_TASTES_OKAY_I_GUESS
 
-// `YAAM_NO_RET` helps static analyzers determine if code is reachable.
-// If it isn't, there are less false positives.
+/* `YAAM_NO_RET` helps static analyzers determine if code is reachable. */
+/* If it isn't, there are less false positives. */
 #ifdef __cplusplus
   #if (defined(_MSC_VER) && _MSVC_LANG >= 201103L) || (__cplusplus >= 201103L)
     #define YAAM_NO_RET [[noreturn]]
@@ -24,7 +26,7 @@
   #define YAAM_WARN(expr, msg) ((void)0)
   #define YAAM_ERROR(expr, msg) ((void)0)
   #define YAAM_FATAL(expr, msg) ((void)0)
-#else // if no YAAM_NONE
+#else /* if no YAAM_NONE */
 
   #if defined(YAAM_NO_WARN)
     #define YAAM_WARN(expr, msg) ((void)0)
@@ -32,17 +34,17 @@
 
     #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
       #define YAAM_WARN(expr, msg) [[assume(expr)]]
-    #elif defined(_MSC_VER) // #if Not C++23
+    #elif defined(_MSC_VER) /* #if Not C++23 */
       #define YAAM_WARN(expr, msg) __assume(expr)
-    #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+    #elif defined(__clang__) || defined(__EMSCRIPTEN__) /* Not MSVC, but Clang or Emscripten */
       #define YAAM_WARN(expr, msg) __builtin_assume(expr)
-    #elif defined(__GNUC__) // Not Clang, but GCC
+    #elif defined(__GNUC__) /* Not Clang, but GCC */
       #define YAAM_WARN(expr, msg) __attribute__((assume(expr)))
-    #else // None of the above
+    #else /* None of the above */
       #define YAAM_WARN(expr, msg) ((void)0)
-    #endif // #ifdef YAAM_ASSUME
+    #endif /* #ifdef YAAM_ASSUME */
 
-  #endif // YAAM_ASSUME_WARN or YAAM_ASSUME_ALL
+  #endif /* YAAM_ASSUME_WARN or YAAM_ASSUME_ALL */
 
   #if defined(YAAM_NO_ERROR)
     #define YAAM_ERROR(expr, msg) ((void)0)
@@ -50,17 +52,17 @@
 
     #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
       #define YAAM_ERROR(expr, msg) [[assume(expr)]]
-    #elif defined(_MSC_VER) // #if Not C++23
+    #elif defined(_MSC_VER) /* #if Not C++23 */
       #define YAAM_ERROR(expr, msg) __assume(expr)
-    #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+    #elif defined(__clang__) || defined(__EMSCRIPTEN__) /* Not MSVC, but Clang or Emscripten */
       #define YAAM_ERROR(expr, msg) __builtin_assume(expr)
-    #elif defined(__GNUC__) // Not Clang, but GCC
+    #elif defined(__GNUC__) /* Not Clang, but GCC */
       #define YAAM_ERROR(expr, msg) __attribute__((assume(expr)))
-    #else // None of the above
+    #else /* None of the above */
       #define YAAM_ERROR(expr, msg) ((void)0)
-    #endif // #ifdef YAAM_ASSUME
+    #endif /* #ifdef YAAM_ASSUME */
 
-  #endif // YAAM_ASSUME_ERROR or YAAM_ASSUME_ALL
+  #endif /* YAAM_ASSUME_ERROR or YAAM_ASSUME_ALL */
 
   #if defined(YAAM_NO_FATAL)
     #define YAAM_FATAL(expr, msg) ((void)0)
@@ -68,19 +70,29 @@
 
     #if (defined(_MSVC_LANG) && _MSVC_LANG >= 202302L) || (defined(__cplusplus) && __cplusplus >= 202302L)
       #define YAAM_FATAL(expr, msg) [[assume(expr)]]
-    #elif defined(_MSC_VER) // #if Not C++23
+    #elif defined(_MSC_VER) /* #if Not C++23 */
       #define YAAM_FATAL(expr, msg) __assume(expr)
-    #elif defined(__clang__) || defined(__EMSCRIPTEN__) // Not MSVC, but Clang or Emscripten
+    #elif defined(__clang__) || defined(__EMSCRIPTEN__) /* Not MSVC, but Clang or Emscripten */
       #define YAAM_FATAL(expr, msg) __builtin_assume(expr)
-    #elif defined(__GNUC__) // Not Clang, but GCC
+    #elif defined(__GNUC__) /* Not Clang, but GCC */
       #define YAAM_FATAL(expr, msg) __attribute__((assume(expr)))
-    #else // None of the above
+    #else /* None of the above */
       #define YAAM_FATAL(expr, msg) ((void)0)
-    #endif // #ifdef YAAM_ASSUME
+    #endif /* #ifdef YAAM_ASSUME */
 
-  #endif // YAAM_ASSUME_FATAL or YAAM_ASSUME_ALL
+  #endif /* YAAM_ASSUME_FATAL or YAAM_ASSUME_ALL */
 
-#endif // if no YAAM_NONE
+#endif /* if no YAAM_NONE */
+
+#if defined(__STDC_VERSION__)
+  #if __STDC_VERSION__ == 199409L
+    #define __func__ ""
+  #endif
+#elif (defined(__cplusplus) && __cplusplus >= 201103L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201103L)
+  /* Nothing */
+#else /* If not C++ and no C version */
+  #define __func__ ""
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -114,19 +126,25 @@ unsigned long set_windows_colors(void);
 }
 #endif
 
-// convenience macro for noreturn, if needed
+/* convenience macro for noreturn, if needed */
 #ifndef YAAM_INCLUDE_NORET
   #undef YAAM_NO_RET
 #endif
 
-// convenience macro for static_assert, if in C
+/* convenience macro for static_assert, if in C */
 #ifndef __cplusplus
-  #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
-    #define static_assert _Static_assert
-  #else
+  #if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 201112L
     #define static_assert(expr, msg)
     #define _Static_assert(expr, msg)
+  #elif (__STDC_VERSION__ >= 202311L)
+    #define _Static_assert static_assert
+  #else /* At least C11, before C23 */
+    #define static_assert _Static_assert
   #endif
-#endif // ifndef __cplusplus
+#elif (defined(_MSC_VER) && _MSVC_LANG < 201103L) || (__cplusplus < 201103L && !defined(_MSC_VER))
+  #define static_assert(expr, msg)
+  #define _Static_assert(expr, msg)
+#endif /* ifndef __cplusplus */
 
-#endif // YAM_TASTES_OKAY_I_GUESS
+
+#endif /* YAM_TASTES_OKAY_I_GUESS */

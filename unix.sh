@@ -12,12 +12,17 @@ if [ ! -d "exe" ]; then
   mkdir exe
 fi
 
-# -ansi # Soon...
-cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/reg_test -std=c99 -DREG_ERROR_TEST
-cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/fatal_test -std=c99 -DFATAL_ERROR_TEST
+cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c89_reg -std=c89 -DREG_ERROR_TEST
+cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c95_fatal -std=iso9899:199409 -DFATAL_ERROR_TEST
+cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c99_reg -std=c99 -DREG_ERROR_TEST
+g++ -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/cpp98_reg -std=c++98 -DREG_ERROR_TEST
+g++ -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/cpp11_fatal -std=c++11 -DFATAL_ERROR_TEST
 
-./exe/reg_test
-./exe/fatal_test
+./exe/c89_reg
+./exe/c95_fatal
+./exe/c99_reg
+./exe/cpp98_reg
+./exe/cpp11_fatal
 
 if [ ! -d "basic" ]; then
   mkdir basic

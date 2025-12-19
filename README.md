@@ -61,6 +61,12 @@ In the top directory:
   
 # FAQ (No one has asked me these questions.)
 
+***The text `Func not available` appears as opposed to the name of the function when an error/warning is emitted. Why?***
+
+You have probably set the standard to a version without the predefined variable `__func__`. These standards are: C89/ANSI C, C95, and C++98.
+
+As of right now, MSVC doesn't enforce these versions, only C11 and C++14 at the earliest. If you are still getting this for MSVC, are you also compiling C files while setting a C++ standard? If so, include the `/TP` compiler flag somewhere to ENSURE that all files regardless of the extension are treated as C++. This does not seem to be the case for compiling C++ files while setting a C standard.
+
 ***Why is there no benchmark for your own assertion implementation?***  
 
 There is no benchmark here much like how there is no benchmark for the built-in ternary operator, which is far too fast to be a bottleneck. Plus, these warning/error handlers are mostly used in debug builds, not release.

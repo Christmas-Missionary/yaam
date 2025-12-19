@@ -163,3 +163,5 @@ exe
 .vs
 *.s
 *.asm
+yaam.cpp
+main.cpp

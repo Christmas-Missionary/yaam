@@ -11,11 +11,15 @@ if (!(test-path -path exe)) {
   mkdir exe
 }
 
-cl /Od /Wall ../src/yaam.c main.c /Fe: exe/reg_test /std:c11 /DREG_ERROR_TEST
-cl /Od /Wall /EHsc ../src/yaam.c main.c /Fe: exe/fatal_test /std:c11 /DFATAL_ERROR_TEST
+cl /Od /Wall ../src/yaam.c main.c /Fe: exe/c11_reg /std:c11 /DREG_ERROR_TEST
+cl /Od /Wall ../src/yaam.c main.c /Fe: exe/c17_fatal /std:c17 /DFATAL_ERROR_TEST
+cl /Od /Wall /TP /EHsc ../src/yaam.c main.c /Fe: exe/cpp14_reg /std:c++14 /DREG_ERROR_TEST
+cl /Od /Wall /TP ../src/yaam.c main.c /Fe: exe/cpp17_fatal /std:c++17 /DFATAL_ERROR_TEST
 
-./exe/reg_test
-./exe/fatal_test
+./exe/c11_reg
+./exe/c17_fatal
+./exe/cpp14_reg
+./exe/cpp17_fatal
 
 if (!(test-path -path basic)) {
   mkdir basic
@@ -77,3 +81,4 @@ see_assembly -to_be nfawe.asm -at combo -with_defines "/DYAAM_NO_FATAL /DYAAM_AS
 
 rm main.obj
 rm yaam.obj
+cd ..

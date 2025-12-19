@@ -1,14 +1,22 @@
-// Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+/*
+Copyright (c) 2025 Christmas_Missionary - BSD Zero Clause License
+*/
 
 #define YAAM_INCLUDE_NORET
 #include "yaam.h"
 
 
-// clang-format off
-#define ERR_STR \
-  "%s File: \33[38;5;51m%s\33[0m, Func: \33[38;5;51m%s\33[0m, Line: \33[38;5;51m%d\33[0m, Message: " \
-  "\33[38;5;51m%s\33[0m, Expression: \33[38;5;51m%s\33[0m\n"
-// clang-format on
+/* clang-format off */
+#ifdef __func__
+  #define ERR_STR \
+    "%s File: \33[38;5;51m%s\33[0m, \33[38;5;226mFunc not available\33[0m%s, Line: \33[38;5;51m%d\33[0m, Message: " \
+    "\33[38;5;51m%s\33[0m, Expression: \33[38;5;51m%s\33[0m\n"
+#else
+  #define ERR_STR \
+    "%s File: \33[38;5;51m%s\33[0m, Func: \33[38;5;51m%s\33[0m, Line: \33[38;5;51m%d\33[0m, Message: " \
+    "\33[38;5;51m%s\33[0m, Expression: \33[38;5;51m%s\33[0m\n"
+#endif
+/* clang-format on */
 
 #ifdef __cplusplus
   #include <cstdio>
