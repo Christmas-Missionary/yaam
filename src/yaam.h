@@ -100,8 +100,7 @@ extern "C" {
 
 #if !defined(YAAM_ERROR) || !defined(YAAM_FATAL)
 YAAM_NO_RET
-void yaam_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
-                      const char * expr);
+void yaam_err_handler(int type, const char * msg, const char * file, const char * fnc, int line, const char * expr);
   #if !defined(YAAM_ERROR)
     #define YAAM_ERROR(expr, msg) ((expr) ? (void)0 : yaam_err_handler(0, msg, __FILE__, __func__, __LINE__, #expr))
   #endif

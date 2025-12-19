@@ -32,8 +32,7 @@ void yaam_warn_handler(const char * msg, const char * file, const char * fnc, in
 }
 
 YAAM_NO_RET
-void yaam_err_handler(unsigned char type, const char * msg, const char * file, const char * fnc, int line,
-                      const char * expr) {
+void yaam_err_handler(int type, const char * msg, const char * file, const char * fnc, int line, const char * expr) {
   (void)printf(ERR_STR, (type) ? "\33[38;5;196mFatal Error!\33[0m" : "\33[38;5;208mError!\33[0m", file, fnc, line, msg,
                expr);
   (void)printf("\33[38;5;196mAborting Now!\33[0m\n");
