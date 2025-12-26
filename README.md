@@ -5,7 +5,6 @@
 Source: https://commons.wikimedia.org/wiki/File:Dioscorea_polystachya_(batatas).jpg  
 No Author. File is considered to be in the Public Domain.
 
-
 # Why?
 
 I found the features in `assert.h` to be a little too bland and lackluster.  
@@ -45,6 +44,9 @@ YAAM_NONE takes priority over YAAM_ASSUME_ALL.
 If you want to use it, you may use `#define YAAM_INCLUDE_NORET` before `#include "path/to/yaam.h"`
 
 `static_assert` is also made available if your current C standard is before C23.
+
+ANSI escape codes are used to give colors and boldness to text, highlighting the important stuff when debugging.  
+`YAAM_NO_COLORS` can be defined if you don't want ANSI escape codes, or the console you will be using (e.g. Web Console) doesn't support them.
 
 # How to Build the Tests
 

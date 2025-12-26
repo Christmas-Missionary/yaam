@@ -15,14 +15,22 @@ fi
 cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c89_reg -std=c89 -DREG_ERROR_TEST
 cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c95_fatal -std=iso9899:199409 -DFATAL_ERROR_TEST
 cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c99_reg -std=c99 -DREG_ERROR_TEST
+cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c11_reg_noc -std=c11 -DREG_ERROR_TEST -DYAAM_NO_COLORS
+cc -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/c11_fatal_noc -std=c11 -DFATAL_ERROR_TEST -DYAAM_NO_COLORS
 g++ -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/cpp98_reg -std=c++98 -DREG_ERROR_TEST
 g++ -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/cpp11_fatal -std=c++11 -DFATAL_ERROR_TEST
+g++ -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/cpp23_reg_noc -std=c++23 -DREG_ERROR_TEST -DYAAM_NO_COLORS
+g++ -g -Wall -Wextra -Wpedantic ../src/yaam.c main.c -o exe/cpp23_fatal_noc -std=c++23 -DFATAL_ERROR_TEST -DYAAM_NO_COLORS
 
 ./exe/c89_reg
 ./exe/c95_fatal
 ./exe/c99_reg
+./exe/c11_reg_noc
+./exe/c11_fatal_noc
 ./exe/cpp98_reg
 ./exe/cpp11_fatal
+./exe/cpp23_reg_noc
+./exe/cpp23_fatal_noc
 
 if [ ! -d "basic" ]; then
   mkdir basic

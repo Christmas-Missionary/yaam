@@ -114,9 +114,16 @@ void yaam_warn_handler(const char * msg, const char * file, const char * fnc, in
   #define YAAM_WARN(expr, msg) ((expr) ? (void)0 : yaam_warn_handler(msg, __FILE__, __func__, __LINE__, #expr))
 #endif
 
-#define YAAM_NOT_ON_WINDOWS 268435456UL /* Has 29th bit on, reserved for apps, system always has this bit off */
+/* Has 29th bit on, reserved for apps, system always has this bit off */
+#define YAAM_NOT_ON_WINDOWS 268435456UL
+#define YAAM_COLORS_DISABLED_ON_WINDOWS 268435457UL
+
 #ifdef _WIN32
+  #ifdef YAAM_NO_COLORS
+    #define yaam_set_windows_colors() (YAAM_COLORS_DISABLED_ON_WINDOWS)
+  #else
 unsigned long yaam_set_windows_colors(void);
+  #endif
 #else
   #define yaam_set_windows_colors() (YAAM_NOT_ON_WINDOWS)
 #endif

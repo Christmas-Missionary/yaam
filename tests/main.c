@@ -82,7 +82,7 @@ int main(void) {
 
   vals[0] = warn(WARN_VALUE);
   vals[1] = reg(REG_VALUE);
-  if (err != 0 && err != YAAM_NOT_ON_WINDOWS) {
+  if (err != 0 && err != YAAM_NOT_ON_WINDOWS && err != YAAM_COLORS_DISABLED_ON_WINDOWS) {
     printf("Colored text output will not work on windows!\n");
   }
   fatal(vals, FATAL_VALUE);

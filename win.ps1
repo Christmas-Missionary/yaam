@@ -15,11 +15,15 @@ cl /Od /Wall ../src/yaam.c main.c /Fe: exe/c11_reg /std:c11 /DREG_ERROR_TEST
 cl /Od /Wall ../src/yaam.c main.c /Fe: exe/c17_fatal /std:c17 /DFATAL_ERROR_TEST
 cl /Od /Wall /TP /EHsc ../src/yaam.c main.c /Fe: exe/cpp14_reg /std:c++14 /DREG_ERROR_TEST
 cl /Od /Wall /TP ../src/yaam.c main.c /Fe: exe/cpp17_fatal /std:c++17 /DFATAL_ERROR_TEST
+cl /Od /Wall /TP ../src/yaam.c main.c /Fe: exe/cpp20_reg_noc /std:c++20 /DFATAL_ERROR_TEST /DYAAM_NO_COLORS
+cl /Od /Wall /TP ../src/yaam.c main.c /Fe: exe/cpp20_fatal_noc /std:c++20 /DFATAL_ERROR_TEST /DYAAM_NO_COLORS
 
 ./exe/c11_reg
 ./exe/c17_fatal
 ./exe/cpp14_reg
 ./exe/cpp17_fatal
+./exe/cpp20_reg_noc
+./exe/cpp20_fatal_noc
 
 if (!(test-path -path basic)) {
   mkdir basic
