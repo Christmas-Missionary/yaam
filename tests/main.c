@@ -75,14 +75,14 @@ long fatal(const long * vals, unsigned long size) {
 
 int main(void) {
   long vals[VALS_SIZE] = {0, 0, 27};
-  unsigned long err = set_windows_colors();
+  unsigned long err = yaam_set_windows_colors();
 
   static_assert(sizeof(char) == 1, "God has left us!");
   static_assert(sizeof(int) >= 2, "int is not at least 2 bytes!");
 
   vals[0] = warn(WARN_VALUE);
   vals[1] = reg(REG_VALUE);
-  if (err != 0 && err != NOT_ON_WINDOWS) {
+  if (err != 0 && err != YAAM_NOT_ON_WINDOWS) {
     printf("Colored text output will not work on windows!\n");
   }
   fatal(vals, FATAL_VALUE);
